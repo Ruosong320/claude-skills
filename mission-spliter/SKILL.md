@@ -52,20 +52,20 @@ Each phase includes:
 
 Within each phase: discovery → architecture/interface decisions → data model/contracts → core implementation → external surfaces/UI → verification → record update → phase acceptance. Adjust to fit the project.
 
+### 5. Execute Each Phase With Its Gate
+
 **🔴 CHECKPOINT — before executing the first phase, and again whenever a phase boundary moves or a requirement changes mid-flight, run this check. Any "yes": work from the named row of `When The Phase Plan Breaks` before proceeding, instead of proceeding and reconciling at the rollup.**
 
-- **Is this phase's acceptance gate not executable as written?** → *the unrunnable-gate row*.
-- **Has a requirement changed since the plan was confirmed?** → *the changed-requirement row*.
-- **Does the next phase depend on a `Partial` the user has not explicitly accepted?** → *the unaccepted-partial row*.
-
-### 5. Execute Each Phase With Its Gate
+- **Is this phase's acceptance gate not executable as written?** → the row beginning *"A phase's acceptance gate cannot be executed as written"*.
+- **Has a requirement changed since the plan was confirmed?** → the row beginning *"A requirement changes after the plan was confirmed"*.
+- **Does the next phase depend on a `Partial` the user has not explicitly accepted?** → the row beginning *"A phase can only be finished as `Partial`"*.
 
 For every phase, in order:
 
 1. Implement the phase tasks.
 2. Update the Recoder record for the phase's change points (including the work path / problem-solving notes Recoder now captures).
 3. **Run the phase acceptance gate against real evidence** using the rubric below. Capture the evidence (command output, test result, screenshot, observed behavior) — do not assert success from code reading alone when the behavior is observable.
-4. **🛑 STOP — assign the verdict from evidence captured at this phase's own gate, never from the fact that the tasks were completed.** A `Pass` requires direct evidence covering that gate's pass condition; when that evidence was not obtained, the verdict is `Not Verified` or `Partial`, never `Pass`. Then mark the phase `Pass` / `Partial` / `Fail`. Only a `Pass` (or an explicitly user-accepted `Partial`) unlocks the next phase. A `Fail` stays in the current phase until fixed.
+4. **🛑 STOP — assign the verdict from evidence captured at this phase's own gate, never from the fact that the tasks were completed.** A `Pass` requires direct evidence covering that gate's pass condition; when that evidence was not obtained, the verdict is `Not Verified` or `Partial`, never `Pass`. Then mark the phase `Pass` / `Partial` / `Fail` / `Not Verified`. Only a `Pass` (or an explicitly user-accepted `Partial`) unlocks the next phase. A `Fail` stays in the current phase until fixed.
 
 This replaces the old "verify everything at the end" model. By the time the last phase passes, delivery is already substantially verified.
 
@@ -119,6 +119,15 @@ The workflow above assumes every gate is runnable, every phase boundary is right
 | A phase can only be finished as `Partial` and the next phase depends on it | Ask the user to accept that specific `Partial`, stating what is missing and what the next phase inherits | If the user does not respond and the work is reversible, hold the next phase rather than stacking on an unaccepted gap, and state the hold in the rollup |
 | A `Partial` accepted earlier turns out to be load-bearing for the delivery | Re-open that phase, re-run its gate, and re-issue the verdict | If it cannot be re-opened, downgrade the rollup to `Conditional Pass` or `Fail` and name the phase explicitly — never carry a stale `Partial` into a `Pass` |
 
+## Do Not
+
+- Do not split by calendar, by file, or by layer — split by independently verifiable outcome.
+- Do not write a gate that only restates its own task ("implemented X"). A gate is a check with an expected result.
+- Do not mark a phase `Pass` from task completion, from code reading, or because the next phase is waiting.
+- Do not absorb a wrong boundary, a changed requirement, or an unaccepted `Partial` silently — each one goes to its named row of `When The Phase Plan Breaks`.
+- Do not let the rollup introduce a verdict that no phase gate produced.
+- Do not carry a broken phase into a green rollup to protect the schedule.
+
 ## Splitting Heuristics
 
 - Put uncertain or high-risk work early.
@@ -130,7 +139,7 @@ The workflow above assumes every gate is runnable, every phase boundary is right
 
 ## Output Template
 
-Use `assets/mission-split-plan-template.md`. It carries the per-phase acceptance gate and the rollup section.
+Use `assets/mission-split-plan-template.md` (relative to this skill's directory). It carries the per-phase acceptance gate and the rollup section. If it is unreachable, build the plan inline from the sections this skill names — phases with tasks, dependencies, and a gate each, plus the rollup — and say the template was not used.
 
 ## Final Planning Rules
 
