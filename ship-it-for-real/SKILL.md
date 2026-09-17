@@ -44,9 +44,9 @@ On an abort criterion or health regression, stop and run the prepared rollback
 when authorized and safer, then verify its signal. Otherwise preserve evidence
 and mark the action blocked rather than improvising a riskier recovery.
 
-**🔴 CHECKPOINT — before the first state-changing action, and again whenever the working unit grows, run this check. Bullets 1-2: apply the named level above, in full. Bullet 3: stop and state the real boundary. In every case, act after the check, never before it and reconcile later.**
+**🔴 CHECKPOINT — run this before the first state-changing action, and again whenever the working unit grows. Any "yes" to bullets 1-2: apply the named level above, in full. Any "yes" to bullet 3: stop and get the expansion authorized.**
 
-- **Is the action destructive, irreversible, production-facing, privileged, or materially paid?** → *High impact*.
+- **Is the action destructive, irreversible, production-facing, privileged, or materially paid, or does it carry meaningful data-loss risk?** → *High impact*.
 - **Is the target shared or persistent state with a practical reversal?** → *Shared recoverable*.
 - **Would the next unit expand the scope or the authority the request actually granted?** → stop; state the real boundary and get that expansion authorized before acting.
 
@@ -120,7 +120,7 @@ Give each required criterion one state: `PASS`, `FAILED`, `BLOCKED`, or
 5. `NOT_VERIFIED` if output exists but evidence is inadequate to establish a
    reliable result.
 
-**🛑 STOP — assign the state before writing the final report. A `PASS` requires direct evidence covering that criterion; when the covering check was unavailable, that criterion is `NOT_VERIFIED`, never `PASS`. Take the overall state from the ordered list above, first match.**
+**🛑 STOP — assign the state before writing the final report. A `PASS` requires direct evidence covering that criterion. When the covering check was unavailable, that criterion is `NOT_VERIFIED`; when it was unavailable because a prerequisite is missing, it is `BLOCKED`. Never `PASS`.**
 
 Use the first matching state. Never present a non-`PASS` result as complete.
 
