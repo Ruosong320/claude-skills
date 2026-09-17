@@ -24,7 +24,7 @@ REDLIGHT_TOOL = re.compile(
 HEDGE = re.compile(r"建议|可以考虑|根据情况|灵活把握|视情况而定|尽量|should probably")
 MARKER = re.compile(r"🔴|🛑|CHECKPOINT")
 FALLBACK = re.compile(r"触发条件|Trigger\b.*First-line|一线修复")
-BLACKLIST = re.compile(r"反模式|Anti-?pattern|What To Avoid|Common Failure Modes|禁止行为|Blacklist|不要做")
+BLACKLIST = re.compile(r"反模式|Anti-?pattern|What To Avoid|Common Failure Modes|禁止|Blacklist|不要做")
 REF_LINK = re.compile(r"\]\((references/[^)]+|assets/[^)]+|scripts/[^)]+)\)")
 
 
