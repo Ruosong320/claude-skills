@@ -46,7 +46,7 @@ and mark the action blocked rather than improvising a riskier recovery.
 
 **🔴 CHECKPOINT — before the first state-changing action, and again whenever the working unit grows, run this check. Any "yes": work from the named level above before acting, instead of acting first and recovering later.**
 
-- **Is the action destructive, irreversible, production-facing, privileged, or materially paid?** → *the High impact level*: authorization for that exact action, plus a usable backup, dry run, or staged execution. An instruction that already names the exact action is that authorization — do not re-ask.
+- **Is the action destructive, irreversible, production-facing, privileged, or materially paid?** → *the High impact level*: authorization for that exact action, plus a usable backup, dry run, or staged execution.
 - **Is the target shared or persistent state with a practical reversal?** → *the Shared recoverable level*: confirm the target, prefer an idempotent or isolated unit, and name the rollback and its success signal before changing anything.
 - **Would the next unit expand the scope or the authority the request actually granted?** → stop and state the real boundary before acting.
 
