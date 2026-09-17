@@ -44,11 +44,11 @@ On an abort criterion or health regression, stop and run the prepared rollback
 when authorized and safer, then verify its signal. Otherwise preserve evidence
 and mark the action blocked rather than improvising a riskier recovery.
 
-**🔴 CHECKPOINT — run this before the first state-changing action, and again whenever the working unit grows. Any "yes" to bullets 1-2: apply the named level above, in full. Any "yes" to bullet 3: stop and get the expansion authorized.**
+**🔴 CHECKPOINT — run this before the first state-changing action, and again whenever the working unit grows. Any "yes" to 1-2: apply the named level above, in full. Any "yes" to 3: stop and get the expansion authorized.**
 
-- **Is the action destructive, irreversible, production-facing, privileged, or materially paid, or does it carry meaningful data-loss risk?** → *High impact*.
-- **Is the target shared or persistent state with a practical reversal?** → *Shared recoverable*.
-- **Would the next unit expand the scope or the authority the request actually granted?** → stop; state the real boundary and get that expansion authorized before acting.
+1. **Is the action destructive, irreversible, production-facing, privileged, or materially paid, or does it carry meaningful data-loss risk?** → *High impact*.
+2. **Is the target shared or persistent state with a practical reversal?** → *Shared recoverable*.
+3. **Would the next unit expand the scope or the authority the request actually granted?** → stop; state the real boundary and get that expansion authorized before acting.
 
 ## Work In Verified Units
 
@@ -127,12 +127,10 @@ Use the first matching state. Never present a non-`PASS` result as complete.
 
 ## Do Not
 
-- Do not act first and reconcile the checkpoint afterwards — a check run after the action it guards is not a check.
-- Do not present a non-`PASS` result as complete.
+- Do not act first and reconcile the checkpoint afterwards — a check run after the action it guards is not a check. The checkpoint fires before the first state-changing action and again whenever the working unit grows.
+- Do not act at any level while that level's required safeguard is unavailable.
+- Do not present a non-`PASS` result as complete, and do not substitute a weaker check for an unavailable real one without saying so and stating the evidence gap.
 - Do not shrink the acceptance scope to fit the budget you chose.
-- Do not take a High impact action while its required safeguard is unavailable.
-- Do not retry an unchanged command, stack speculative patches, or poll indefinitely.
-- Do not substitute a weaker check for an unavailable real one without saying so.
 - Do not expand scope or authority past what the request granted.
 
 ## Report Only What Matters
