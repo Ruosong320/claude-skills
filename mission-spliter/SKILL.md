@@ -107,7 +107,7 @@ Be strict about user-facing correctness, data integrity, security, and that the 
 - Separate foundation from feature behavior; keep phases small enough to validate, large enough to matter.
 - Mark tasks parallel-safe only when files/data/responsibilities are disjoint.
 - Fold the Recoder update and the acceptance gate into each phase — they are phase work, not afterthoughts.
-- Where it helps execution, emit the phases as tasks via the Task tool instead of keeping a parallel markdown list, so plan and tracker are one thing.
+- Where it helps execution, emit the phases as tasks via your environment's task tracker instead of keeping a parallel markdown list, so plan and tracker are one thing.
 
 ## Output Template
 

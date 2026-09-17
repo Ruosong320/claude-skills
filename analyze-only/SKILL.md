@@ -88,7 +88,7 @@ Label statements consistently:
 - `Unknown`: material information not established.
 - `Web-sourced`: from network search, cite URL or source description.
 
-Prefer primary sources and runtime evidence over summaries or comments. Triangulate material conclusions when independent evidence is available. Search external sources with `WebFetch` or web search — before answering, not after — when project-internal evidence is insufficient, when the stack or the error is unfamiliar, when comparing approaches, or when a performance, security, or best-practice claim needs an industry baseline. Use at least two or three independent sources (official docs, high-star real projects, community reports) and record each one in this format:
+Prefer primary sources and runtime evidence over summaries or comments. Triangulate material conclusions when independent evidence is available. Search external sources with your environment's web-search or page-fetch tool — before answering, not after — when project-internal evidence is insufficient, when the stack or the error is unfamiliar, when comparing approaches, or when a performance, security, or best-practice claim needs an industry baseline. Use at least two or three independent sources (official docs, high-star real projects, community reports) and record each one in this format:
 
 ```markdown
 - 来源：[官方文档/GitHub 项目/Stack Overflow/技术博客]
