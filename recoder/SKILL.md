@@ -25,16 +25,16 @@ For qualifying work, resolve the record path from existing evidence:
 
 Keep using the same path for the project unless told to change.
 
-**🔴 CHECKPOINT — before creating a record file or restructuring an existing one, confirm all three. Any "no" routes to the matching row of「When The Record Cannot Be Maintained As Specified」; do not write first and reconcile later.**
+**🔴 CHECKPOINT — before creating a record file or restructuring an existing one, run this check. Any hit: do not write first and reconcile later — take the matching row of the `When The Record Cannot Be Maintained As Specified` table instead.**
 
-- **Path resolved, not guessed?** The record path comes from the precedence above or from the user — never from a plausible-sounding default picked mid-task.
-- **🛑 Not user-authored content about to be restructured?** Append and update. Restructuring someone else's record layout is the one write here that cannot be undone by reading it back.
-- **Inside a writable area?** A record that would land in a directory the user marked read-only is not created at all.
+- **Is the path resolved, not guessed?** The precedence above or the user decides it, never a plausible-sounding default picked mid-task.
+- **🛑 Is this user-authored content about to be restructured?** Append and update; the user confirms this one, not you.
+- **Is the target inside a writable area?**
 
 ## Record File Setup
 
 1. Read the current record if it exists.
-2. If absent, create it from `assets/record-template.md` (or the inline template below).
+2. If absent, create it from `assets/record-template.md`.
 3. Fill known metadata: project, record path, repo root, creation date, current task, maintainer agent.
 4. Single source of truth: scope/brief and architecture live HERE. Other skills (planner, README) should reference this record, not re-author it. Preserve user-authored content; append and update, do not rewrite history unless asked to clean up.
 
@@ -108,12 +108,6 @@ Write for a capable newcomer and for a future distillation skill, not for the ag
 - Dates in `YYYY-MM-DD`. Keep log chronology consistent (newest top or bottom, pick one).
 - Concise but complete enough to reconstruct intent and method.
 
-## Record Template
-
-Use `assets/record-template.md`. It contains the State-layer sections, the `Work Path & Problem-Solving Log`, and a `Reusable Methods & Pitfalls` rollup that mirrors the tagged signals for easy harvest.
-
 ## Entry Checklists
 
-State-layer change-log entry answers: what changed, where, why, how implemented, what assumptions changed, how verified, what the next person should watch for.
-
-Work-path episode answers: what problem, what was considered, what was tried and what failed, what worked, why it worked at root, and what reusable method/pitfall/decision/heuristic it yields (tagged).
+Field layout: `assets/record-template.md`. A State-layer entry is complete when it answers what changed, where, why, how implemented, what assumptions changed, how verified, what the next person should watch for. A Work-path episode is complete when it answers what problem, what was considered, what was tried and what failed, what worked, why it worked at root, and what reusable method/pitfall/decision/heuristic it yields (tagged).

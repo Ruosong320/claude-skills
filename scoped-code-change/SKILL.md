@@ -5,8 +5,6 @@ description: Use when an agent needs to modify a local, specific, or partial are
 
 # Scoped Code Change
 
-## 需要提问时，优先使用弹窗工具提供具体选项；无法弹窗或不适合选项题时，再要求简短描述。
-
 ## Core Rule
 
 Derive the goal, scope, constraints, acceptance criteria, and verification method from the user's request, repository instructions, existing implementation, and tests. If the change is clear, reversible, authorized, and verifiable, investigate and implement without a questionnaire or confirmation round.
@@ -28,11 +26,11 @@ If the request is for read-only analysis, keep it read-only. If the user says "j
    - Trace behavior far enough to understand ownership boundaries and side effects.
    - Name the minimal edit surface before changing files: target files, relevant functions/classes/components, and why these are sufficient.
 
-**🔴 CHECKPOINT — before the first write, answer these three. Any "yes" routes to the matching row of「When The Scoped Workflow Breaks」; do not start patching and handle it later.**
+**🔴 CHECKPOINT — before the first write, run this check. Any hit: do not patch first and reconcile later — take the matching row of the `When The Scoped Workflow Breaks` table instead.**
 
-- **🛑 Irreversible?** Schema migration, file deletion, public-interface or published-data change → stop before writing; name the rollback cost and get confirmation.
-- **Shared caller?** The named change point is one of several callers of the same broken logic → fix the shared function, not the reported symptom.
-- **Scope widened?** Multi-file, architectural, or beyond the request → stop and report the real scope with the evidence that widened it.
+- **🛑 Is this irreversible?** Schema migration, file deletion, public-interface or published-data change.
+- **Is the named change point one of several callers of the same broken logic?**
+- **Has the investigation widened the scope past the request?**
 
 3. Patch in the local style.
    - Match the surrounding file's programming habits: naming, control flow, abstraction level, error handling, comments, formatting, import order, and test style.
@@ -65,7 +63,7 @@ Use this checklist internally to identify the change boundary. It is not a manda
 
 Rules for using the checklist:
 
-- Prefer one decision-ready question with concrete options when user input is necessary.
+- Prefer one decision-ready question with concrete options when user input is necessary; if options cannot be offered, ask for a short description instead.
 - Do not dump the checklist, repeat answered questions, or ask for confirmation merely because an assumption exists.
 - State non-consequential assumptions while proceeding when they help the user review the result.
 
