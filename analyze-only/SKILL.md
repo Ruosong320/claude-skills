@@ -9,6 +9,8 @@ Analyze the requested subject rigorously and report in chat. Preserve all persis
 
 ## Non-Negotiable Boundary
 
+**🛑 STOP — before any command that could change state, check it against this boundary. When you cannot tell whether a command is read-only, treat it as state-changing and do not run it.** A command run to "see what happens" is not analysis.
+
 Do not add, modify, delete, generate, patch, rewrite, format, move, or save files or persistent content while this skill is active.
 
 Allowed actions:
@@ -26,7 +28,7 @@ Forbidden actions:
 - Send messages, update tickets, change remote systems, or perform the recommended action.
 - Invent requirements, behavior, causes, measurements, source content, or conclusions.
 
-If a requested diagnostic is destructive or state-changing, explain the limitation and use existing evidence or a safe read-only alternative. If the user asks both for analysis and implementation, finish and present the analysis first; do not implement while this skill remains the active instruction.
+If a requested diagnostic is destructive or state-changing, explain the limitation and use existing evidence or a safe read-only alternative. When the existing evidence is not enough to answer at all, take the `evidence needs a state-changing action` row of `When The Analysis Cannot Proceed`. If the user asks both for analysis and implementation, finish and present the analysis first; do not implement while this skill remains the active instruction.
 
 ## Analysis Standard
 
@@ -68,7 +70,7 @@ Before detailed analysis, publish a task-specific checklist. Include only releva
 - alternative explanations, failure modes, and risks;
 - verification, validation, confidence, and remaining unknowns.
 
-Use the checklist as a control, not decoration. Address each item explicitly and mark its final status as `supported`, `partially supported`, `unsupported`, or `not applicable`.
+Use the checklist as a control, not decoration. Address each item explicitly and mark its final status as `supported`, `partially supported`, `unsupported`, `not applicable`, or `not assessed` — `not assessed` is for an item no available evidence can reach, and it is not the same as `unsupported`. An item you cannot assess goes to the `cannot assess a checklist item` row of `When The Analysis Cannot Proceed`; never default it to `unsupported`.
 
 ### 4. Build an Evidence Ledger
 
@@ -98,7 +100,7 @@ Prefer primary sources and runtime evidence over summaries or comments. Triangul
 - 可信度：[高/中/低]，依据：[star 数/官方性/时效性]
 ```
 
-If a core conclusion has no supporting evidence, search and supplement before answering. Preserve contradictory evidence rather than averaging it away.
+If a core conclusion has no supporting evidence, search and supplement before answering. Preserve contradictory evidence rather than averaging it away. If retrieval is unavailable, or two retained sources contradict each other irreconcilably, take the matching row of `When The Analysis Cannot Proceed` instead of deciding alone which one to keep.
 
 Assess evidence along independent dimensions rather than a vague quality score: authority, proximity to the observation, independence from other sources, relevance to this claim and time horizon, recency, completeness of excluded cases, and reproducibility of the path from source to conclusion. Do not let authority substitute for direct runtime evidence about current behavior, and do not call two sources independent when one copied the other.
 
@@ -226,6 +228,8 @@ These are defects, not style preferences: a report that exhibits any of them is 
 
 ## Final Quality Check
 
+**🔴 CHECKPOINT — run this gate before writing the report, not after. An unresolved item is fixed and the analysis re-run; it is never emitted with a note.**
+
 Before answering, run this gate — the RIGOUR check: `Repeatable`, `Independent`, `Grounded`, `Objective`, `Uncertainty-managed`, `Robust`.
 
 - **Repeatable** — no persistent state changed, and every material finding traces to evidence another agent could follow;
@@ -240,6 +244,18 @@ Before answering, run this gate — the RIGOUR check: `Repeatable`, `Independent
 - the answer is proportional and directly answers the requested question.
 
 If any item above fails, fix it and re-analyze before answering — do not emit the report with an unresolved item.
+
+## When The Analysis Cannot Proceed
+
+The workflow above assumes the evidence is reachable, retrieval works, and the sources agree. When that does not hold, handle it by this table — never fill the gap with inference dressed as fact.
+
+| Trigger | First-line fix | Fallback if that fails |
+|---|---|---|
+| Search is unavailable (no network, sandbox, no search tool) | Every conclusion that depends on an industry baseline is downgraded to `Inference`, and the report says the search could not be run | A core conclusion still depends on an external baseline → mark it `Low`, and name the exact questions and source types a later search would need |
+| The evidence needed to answer only exists behind a state-changing action (must run, restart, reconfigure, or write to observe) | State the read-only boundary, answer from existing evidence, and name the single action that would supply the missing evidence | Existing evidence supports no conclusion at all → report the question as a decision-critical `Unknown`; still deliver the report, but give no directional conclusion |
+| Two retained sources contradict each other and neither recency nor authority settles it | Keep both in the evidence ledger with their provenance and dates, and lower the affected finding's confidence by one level | The contradiction lands on a core conclusion → give the report a `Contradiction unresolved` entry and state no single conclusion |
+| A checklist item cannot be assessed — neither `supported` nor `unsupported`, because no evidence reaches it | Mark it `not assessed` and name the evidence that is missing | That item is decision-critical → the report's overall confidence cannot exceed `Medium`, and the `Conclusion` section names the item |
+| A second opinion is unavailable and the only source is the user's own claim or a secondary summary | Label it `Assumption` or `Unknown`; never promote it to `Fact` | That claim is load-bearing for the conclusion → say so explicitly and state the cheapest independent check |
 
 ## 与 real-solution-plan 的协作
 
