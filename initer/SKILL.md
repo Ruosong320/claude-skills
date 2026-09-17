@@ -39,8 +39,8 @@ For each checklist item, mark one of:
 
 - `Clear`: enough information is known.
 - `Assumed`: a low-risk assumption can be made; state it.
-- `Unclear`: implementation could diverge meaningfully without an answer.
-- `Blocked`: cannot responsibly proceed without an answer.
+- `Unclear`: an answer would change implementation, but a stated low-risk assumption can stand in for now.
+- `Blocked`: no safe assumption exists — proceeding means guessing at a decision only the user can make.
 
 ### 3. Ask Targeted Questions
 
@@ -60,7 +60,7 @@ After each user answer:
 
 Continue until all blocking items are resolved and only safe assumptions remain.
 
-If the user stops answering for two consecutive rounds, take the row beginning *User does not answer, or answers something unrelated* in `When The Clarification Loop Stalls`; for a reversed decision, take *User reverses a decision they already confirmed*; for one reply covering several items, take *One user reply covers several checklist items*; when the answer contradicts what the repo actually shows, take *The user's answer contradicts what the repo*.
+If the user stops answering for two consecutive rounds, take the row beginning *User does not answer, or answers something unrelated* in `When The Clarification Loop Stalls`; for a reversed decision, take *User reverses a decision they already confirmed*; for one reply covering several items, take *One user reply covers several checklist items*; when the answer contradicts what the repo actually shows, take *The user's answer contradicts what the repo, config, or existing docs actually show*.
 
 ### 5. Confirm The Build Brief
 
@@ -76,7 +76,7 @@ Before implementation, provide a concise build brief:
 
 Then proceed unless the user corrects the brief or explicitly asks for more planning.
 
-**🛑 STOP — when clarification was skipped at the user's request, or any `Blocked` item is still open, the brief must be shown and acknowledged before implementation starts; this overrides the *start* step of the skip row in `When The Clarification Loop Stalls`. Silence counts as acceptance only for a brief the user has actually been shown, never for one they have not seen.**
+**🛑 STOP — when clarification was skipped at the user's request, or any `Blocked` item is still open, the brief must be shown and acknowledged before implementation starts; on this path silence is not acknowledgement. For these cases this overrides the *start* step of the skip row, the proceed-on-defaults fallback of the no-answer row in `When The Clarification Loop Stalls`, and the proceed-on-silence rule in step 5.**
 
 ## When The Clarification Loop Stalls
 
@@ -170,7 +170,7 @@ Implementation may start only when:
 - Acceptance criteria or verification method is explicit.
 - Any remaining assumptions are listed and low risk.
 
-**🔴 CHECKPOINT — walk the list above item by item before writing any implementation code. Any item that is neither satisfied nor listed as a low-risk assumption in the Build Brief: ask, do not code.**
+**🔴 CHECKPOINT — walk the list above item by item before writing any implementation code. Any item that is neither satisfied nor carried under `Assumptions` in the Build Brief as a stated low-risk assumption: ask, do not code.**
 
 ## Question Style
 

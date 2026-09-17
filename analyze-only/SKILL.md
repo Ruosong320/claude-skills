@@ -228,7 +228,7 @@ These are defects, not style preferences: a report that exhibits any of them is 
 
 ## Final Quality Check
 
-**🔴 CHECKPOINT — run this gate before writing the report, not after. A gate run after the report it guards is not a gate.**
+**🔴 CHECKPOINT — run this gate against the finished analysis, before the report is written. For each item ask "does the evidence I actually hold demonstrate this", not "did I address this".**
 
 Before answering, run this gate — the RIGOUR check: `Repeatable`, `Independent`, `Grounded`, `Objective`, `Uncertainty-managed`, `Robust`.
 
@@ -247,7 +247,7 @@ If any item above fails, fix it and re-analyze before answering — do not emit 
 
 ## When The Analysis Cannot Proceed
 
-The workflow above assumes the evidence is reachable without changing state, retrieval works, the sources agree, and every load-bearing claim has a source other than the user. When any of that does not hold, handle it by this table — never fill the gap with inference dressed as fact.
+The workflow above assumes retrieval works, the sources agree, every load-bearing claim has a source other than the user, no needed evidence sits behind a state-changing action, and every checklist item is reachable by some available evidence. When any of that does not hold, handle it by this table — never fill the gap with inference dressed as fact.
 
 | Trigger | First-line fix | Fallback if that fails |
 |---|---|---|
