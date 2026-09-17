@@ -46,7 +46,7 @@ For each checklist item, mark one of:
 
 Ask only about `Unclear` and `Blocked` items that matter now. Prefer 3-7 concise questions per round. Group related questions. Avoid asking about details that can be safely inferred from repository conventions or inspected locally.
 
-If the user asks to skip the questions and start coding, or a question you just asked turns out to be answerable from the repo, config, or docs, take the matching row of `When The Clarification Loop Stalls` rather than proceeding.
+If the user asks to skip the questions and start coding, take the row beginning *User asks to skip questions and start coding* in `When The Clarification Loop Stalls` rather than proceeding. If a question you just asked turns out to be answerable from the repo, config, or docs, take the row beginning *A question you asked turns out to be answerable from the repo*.
 
 Questions must be specific enough that the user's answer can change implementation. Avoid broad questions like "Any preferences?" unless a concrete decision list would be misleading.
 
@@ -60,7 +60,7 @@ After each user answer:
 
 Continue until all blocking items are resolved and only safe assumptions remain.
 
-If the user stops answering for two consecutive rounds, reverses a decision they already confirmed, answers several checklist items in one reply, or answers in a way the repo contradicts, take the matching row of `When The Clarification Loop Stalls`.
+If the user stops answering for two consecutive rounds, take the row beginning *User does not answer, or answers something unrelated* in `When The Clarification Loop Stalls`; for a reversed decision, take *User reverses a decision they already confirmed*; for one reply covering several items, take *One user reply covers several checklist items*; when the answer contradicts what the repo actually shows, take *The user's answer contradicts what the repo*.
 
 ### 5. Confirm The Build Brief
 
@@ -76,11 +76,11 @@ Before implementation, provide a concise build brief:
 
 Then proceed unless the user corrects the brief or explicitly asks for more planning.
 
-**🛑 STOP — when clarification was skipped at the user's request, or any `Blocked` item is still open, the brief must be shown and acknowledged before implementation starts. Silence counts as acceptance only for a brief the user has actually been shown; it never counts for one they have not seen.**
+**🛑 STOP — when clarification was skipped at the user's request, or any `Blocked` item is still open, the brief must be shown and acknowledged before implementation starts; this overrides the *start* step of the skip row in `When The Clarification Loop Stalls`. Silence counts as acceptance only for a brief the user has actually been shown, never for one they have not seen.**
 
 ## When The Clarification Loop Stalls
 
-The loop assumes a cooperative user answering in rounds. Handle these by table, never continue silently.
+The loop assumes a cooperative user answering in rounds. Handle these by table, never continue silently. When one situation matches more than one row, work from the higher row.
 
 | Trigger | First-line fix | Fallback if that fails |
 |---|---|---|
