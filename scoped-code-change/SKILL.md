@@ -28,6 +28,12 @@ If the request is for read-only analysis, keep it read-only. If the user says "j
    - Trace behavior far enough to understand ownership boundaries and side effects.
    - Name the minimal edit surface before changing files: target files, relevant functions/classes/components, and why these are sufficient.
 
+**🔴 CHECKPOINT — before the first write, answer these three. Any "yes" routes to the matching row of「When The Scoped Workflow Breaks」; do not start patching and handle it later.**
+
+- **🛑 Irreversible?** Schema migration, file deletion, public-interface or published-data change → stop before writing; name the rollback cost and get confirmation.
+- **Shared caller?** The named change point is one of several callers of the same broken logic → fix the shared function, not the reported symptom.
+- **Scope widened?** Multi-file, architectural, or beyond the request → stop and report the real scope with the evidence that widened it.
+
 3. Patch in the local style.
    - Match the surrounding file's programming habits: naming, control flow, abstraction level, error handling, comments, formatting, import order, and test style.
    - Match the user's writing and language habits in strings, prompts, docs, comments, and commit-like text.

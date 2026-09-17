@@ -25,6 +25,12 @@ For qualifying work, resolve the record path from existing evidence:
 
 Keep using the same path for the project unless told to change.
 
+**🔴 CHECKPOINT — before creating a record file or restructuring an existing one, confirm all three. Any "no" routes to the matching row of「When The Record Cannot Be Maintained As Specified」; do not write first and reconcile later.**
+
+- **Path resolved, not guessed?** The record path comes from the precedence above or from the user — never from a plausible-sounding default picked mid-task.
+- **🛑 Not user-authored content about to be restructured?** Append and update. Restructuring someone else's record layout is the one write here that cannot be undone by reading it back.
+- **Inside a writable area?** A record that would land in a directory the user marked read-only is not created at all.
+
 ## Record File Setup
 
 1. Read the current record if it exists.
