@@ -50,7 +50,7 @@ and mark the action blocked rather than improvising a riskier recovery.
 
 1. **Is the action destructive, irreversible, production-facing, privileged, or materially paid, or does it carry meaningful data-loss risk?** → *High impact*.
 2. **Is the target shared or persistent state with a practical reversal?** → *Shared recoverable*.
-3. **Would the next unit expand the scope or the authority the request actually granted?** → stop; take the row beginning *The action cannot succeed without authority the request did not grant* in `When The Execution Cannot Proceed As Specified` — state the real boundary and get that expansion authorized before acting.
+3. **Would the next unit expand the scope or the authority the request actually granted?** → stop; state the real boundary and get that expansion authorized before acting. This gate stops outright. If the expansion is refused or unavailable, take the row beginning *The action cannot succeed without authority the request did not grant* in `When The Execution Cannot Proceed As Specified` — note that row's in-authority fallback never authorizes the expansion itself.
 
 ## Work In Verified Units
 
@@ -149,14 +149,15 @@ under `Do Not` ("Do not act at any level while that level's required safeguard
 is unavailable"), the retry budget in Work In Verified Units, "stop at any
 bound", "state the evidence gap instead of substituting a weaker check", the
 no-data rule in Bound Monitoring And Continuation, the authority boundary in
-Scale Assurance To Risk, or "Use the first matching state" in Assign The
-Terminal State, this table governs — but only where one of its rows actually
+Scale Assurance To Risk, or "Use the first matching state" and the 🛑 STOP gate
+in Assign The Terminal State, this table governs — but only where one of its rows actually
 conflicts with that rule; a rule no row conflicts with keeps its full force.
 When one situation matches more than one row, rank the candidates by their
 first-line fix and take the highest: a row that declines the action outranks a
 row that stops to ask, and a row that stops to ask outranks a row that proceeds
-with a narrower action. Every exception must still be stated in the final
-report.**
+with a narrower action. That 🛑 gate governs each criterion's own state; a row's
+fallback sets the overall state, which is a different field — the two do not
+conflict. Every exception must still be stated in the final report.**
 
 | Trigger | First-line fix | Fallback if that fails |
 |---|---|---|

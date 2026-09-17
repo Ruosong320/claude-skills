@@ -93,7 +93,7 @@ Do not claim full validation from a weak smoke test. Say exactly what was and wa
 
 The workflow assumes the change stays small, reversible, and verifiable. When it turns out otherwise, handle it by this table — do not keep patching and hope.
 
-**This section is the exception clause for the workflow above: where it conflicts with the Core Rule ("investigate and implement without a questionnaire or confirmation round"), step 2's "before changing files", step 3's "keep changes narrow", or step 4's "run the smallest meaningful verification", this table governs — but only where one of its rows actually conflicts with that rule; a rule no row conflicts with keeps its full force. When one situation matches more than one row, take the row whose first-line fix is the most conservative — a row that stops, asks, or declines to write outranks any row that proceeds. Every exception must still be named in the report.**
+**This section is the exception clause for the workflow above: where it conflicts with the Core Rule ("investigate and implement without a questionnaire or confirmation round"), step 2's "before changing files", step 3's "keep changes narrow", or step 4's "run the smallest meaningful verification", this table governs — but only where one of its rows actually conflicts with that rule. When one situation matches more than one row, take the row whose first-line fix is the most conservative — a row that stops, asks, or declines to write outranks any row that proceeds. Every exception must still be named in the report.**
 
 | Trigger | First-line fix | Fallback if that fails |
 |---|---|---|
