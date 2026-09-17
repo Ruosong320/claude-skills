@@ -1,0 +1,3 @@
+timestamp	commit	skill	old_score	new_score	status	dimension	note	eval_mode
+2026-09-17T09:50	baseline	prompt-forge	-	77.9	baseline	-	dim4=3 dim3=7 dim8=8；baseline判断力已强，skill增量在流程可审计性	full_test
+2026-09-17T10:05	b9945aa	prompt-forge	77.9	3-0 better	keep	dim4	4处显性检查点标记；3 judge盲评一致指向dim4、其余逐字相同	paired
