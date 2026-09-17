@@ -72,6 +72,18 @@ Before implementation, provide a concise build brief:
 
 Then proceed unless the user corrects the brief or explicitly asks for more planning.
 
+## When The Clarification Loop Stalls
+
+The loop assumes a cooperative user answering in rounds. Handle these by table, never continue silently.
+
+| Trigger | First-line fix | Fallback if that fails |
+|---|---|---|
+| User does not answer, or answers something unrelated, for two consecutive rounds | Cut to the 1-2 most critical `Blocked` items and attach your recommended default so the user only has to confirm | Proceed on the recommended defaults and list every one of them in the Build Brief under Assumptions, marked `user did not confirm` |
+| User reverses a decision they already confirmed | Trace only the downstream items that decision affects and re-ask those; do not re-run the whole checklist | If the reversal touches work already started, stop and state the rework cost, then let the user choose continue or revert |
+| User asks to skip questions and start coding | List only the `Blocked` items with the concrete risk of each, and ask once for confirmation | If the user still insists, start, and mark the Build Brief `clarification skipped at user request; the following boundaries are unconfirmed` |
+| A question you asked turns out to be answerable from the repo, config, or docs | Answer it yourself immediately and withdraw the question; never spend a user round on it | If the repo does not settle it either, re-ask as a concrete choice rather than an open question |
+| One user reply covers several checklist items | Fill each item in, restate your reading, and ask the user to correct only what is wrong | If the reply stays ambiguous on an item, mark that item `Unclear` rather than guessing |
+
 ## Checklist Categories
 
 Use these categories as the default checklist inventory.
