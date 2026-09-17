@@ -25,11 +25,11 @@ For qualifying work, resolve the record path from existing evidence:
 
 Keep using the same path for the project unless told to change.
 
-**🔴 CHECKPOINT — before creating a record file or restructuring an existing one, run this check. Any hit: do not write first and reconcile later — take the matching row of the `When The Record Cannot Be Maintained As Specified` table instead.**
+**🔴 CHECKPOINT — before creating a record file or restructuring an existing one, run this check. Any "yes": do not write first and reconcile later — take the matching row of the `When The Record Cannot Be Maintained As Specified` table instead.**
 
-- **Is the path resolved, not guessed?** The precedence above or the user decides it, never a plausible-sounding default picked mid-task.
+- **Is the path a guess rather than a resolved value?** The precedence above or the user decides it, never a plausible-sounding default picked mid-task.
 - **🛑 Is this user-authored content about to be restructured?** Append and update; the user confirms this one, not you.
-- **Is the target inside a writable area?**
+- **Is the target outside a writable area?**
 
 ## Record File Setup
 

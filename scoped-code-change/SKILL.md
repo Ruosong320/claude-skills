@@ -26,7 +26,7 @@ If the request is for read-only analysis, keep it read-only. If the user says "j
    - Trace behavior far enough to understand ownership boundaries and side effects.
    - Name the minimal edit surface before changing files: target files, relevant functions/classes/components, and why these are sufficient.
 
-**🔴 CHECKPOINT — before the first write, run this check. Any hit: do not patch first and reconcile later — take the matching row of the `When The Scoped Workflow Breaks` table instead.**
+**🔴 CHECKPOINT — before the first write, run this check. Any "yes": do not patch first and reconcile later — take the matching row of the `When The Scoped Workflow Breaks` table instead.**
 
 - **🛑 Is this irreversible?** Schema migration, file deletion, public-interface or published-data change.
 - **Is the named change point one of several callers of the same broken logic?**
