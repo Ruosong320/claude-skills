@@ -1,0 +1,99 @@
+---
+name: recoder
+description: Maintain a durable project record for substantial work that spans sessions, changes architecture/interfaces/data, contains consequential decisions or failed approaches, or is explicitly requested for later handoff or methodology distillation. Capture both project state and the work path. Do not trigger for ordinary short or local changes, and do not require a record before such changes.
+---
+
+# Recoder
+
+Recoder keeps one authoritative project record current while work happens. It records two layers:
+
+- **State layer — what the system IS.** Architecture, flows, interfaces, data, dependencies, and a change log of what changed. So a newcomer can understand and continue the project.
+- **Work-path layer — HOW the agent got there and WHY.** The problems encountered, the options weighed, the attempts that failed, the fix that worked, the root cause, and the generalizable method or pitfall learned. So that later a separate methodology-distillation skill can read many of these records and sediment them into reusable methodology skills.
+
+The work-path layer is the priority and the differentiator. Most records capture only the final state; the value here is capturing the *journey* — especially the dead-ends and the reasoning — because that is where transferable method lives. A clean final diff teaches little; "we tried X, it failed because Y, so the rule is Z" teaches a lot.
+
+## Activation And Record Path
+
+First decide whether the work qualifies: it is substantial, cross-session, architecture/interface/data changing, contains a consequential decision or meaningful failed path, or the user explicitly requested a durable record. If it does not qualify, do not activate Recoder and do not block the task.
+
+For qualifying work, resolve the record path from existing evidence:
+
+- If the user gave a path in this conversation, use it.
+- Search project instructions and conventions such as `PROJECT_RECORD.md`, `RECORDER.md`, `.codex/record.md`, or an existing documentation location; use an established path without asking for confirmation.
+- If no convention exists and a new record is in scope, propose one concrete default such as `PROJECT_RECORD.md` and proceed when creation is reversible and authorized.
+- Ask one question only when the location changes published project structure, ownership, permission, or task scope.
+
+Keep using the same path for the project unless told to change.
+
+## Record File Setup
+
+1. Read the current record if it exists.
+2. If absent, create it from `assets/record-template.md` (or the inline template below).
+3. Fill known metadata: project, record path, repo root, creation date, current task, maintainer agent.
+4. Single source of truth: scope/brief and architecture live HERE. Other skills (planner, README) should reference this record, not re-author it. Preserve user-authored content; append and update, do not rewrite history unless asked to clean up.
+
+## What To Record — State Layer
+
+Record every completed change point: added/modified/renamed/moved/deleted files; functions, classes, components, routes, commands, scripts, migrations, schemas, prompts, styles, tests, docs; dependency/config/build/deploy/tooling changes; architecture decisions, interface contracts, data-flow and behavioral changes; bug/test fixes and risks introduced or resolved.
+
+Group tiny mechanical edits into one change point when they share intent and verification. Record user-facing behavior, shared interfaces, architecture, data models, and risky code separately.
+
+## What To Record — Work-Path Layer (priority)
+
+For qualifying work, capture an **episode** when a hypothesis was tested, an approach was chosen over meaningful alternatives, something failed before it worked, a non-obvious root cause was found, or an assumption was falsified. Routine commands and obvious local edits are not episodes.
+
+For each episode, capture honestly — **including failures and abandoned paths** (these are the most valuable for methodology and must not be edited out to look clean):
+
+- **Trigger / problem** — what prompted this, the symptom or goal.
+- **Context & constraints** — what was true that shaped the choice (repo conventions, task size, user preference, environment limits).
+- **Options considered** — the candidate approaches, and **why the rejected ones were rejected**.
+- **Attempts & dead-ends** — what was tried, in order, including what failed and the observed failure (error, wrong output, blocked tool). Note the diagnostic step (search/command/read) that produced the insight.
+- **Resolution** — what actually worked.
+- **Root cause / why it worked** — the underlying reason, not just the surface fix.
+- **Reusable method or pitfall** — the generalizable, project-independent lesson. Phrase it so a future agent on a *different* project could apply it. Tag it (see Methodology Signals).
+- **Evidence** — command output, test result, screenshot, observed behavior.
+
+Also record decision points that did not involve failure: a deliberate trade-off, a scoping call, a chosen abstraction level, a why-not. These are decisions worth transferring even when nothing broke.
+
+## Methodology Signals (for downstream harvest)
+
+So a later consolidation skill can scrape reusable knowledge mechanically, tag transferable lines with these inline markers. Keep them on their own line, one idea each, phrased project-independently:
+
+- `#method:` a reusable technique or procedure that worked.
+- `#pitfall:` a trap, failure mode, or anti-pattern to avoid, with the tell that signals it.
+- `#decision:` a trade-off rule — when to choose A over B.
+- `#heuristic:` a rule of thumb for judgment calls (e.g. when to abstract, when to verify visually).
+
+Each tagged line should stand on its own without the surrounding episode — the consolidation skill may extract it in isolation. Bad: `#method: fixed it`. Good: `#method: to verify interactive UI without a test driver, drive the page with headless Chrome --screenshot via a throwaway probe page, then delete the probe.`
+
+## Update Discipline
+
+After each change point or episode, in the same turn before moving on:
+
+1. Append the State-layer entry under `Change Log`.
+2. Append the Work-path episode under `Work Path & Problem-Solving Log` (with tagged signals).
+3. Update affected durable sections (`Architecture Map`, `Key Flows`, `Data Model`, `Public Interfaces`, `Dependency & Configuration Map`, `Testing & Verification`, `Known Risks`).
+4. Use concrete paths and the specific symbols/routes/commands/sections touched.
+5. Record verification results; if a check was not run, say so and why ("not run" ≠ "passed").
+6. Keep the final user response consistent with the record.
+
+## Writing Standard
+
+Write for a capable newcomer and for a future distillation skill, not for the agent who just did the work.
+
+- Concrete facts over vague summaries; name files, symbols, commands.
+- Explain why a change exists and how the pieces interact.
+- Keep assumptions/constraints separate from facts.
+- Preserve dead-ends truthfully — do not sanitize the path into a straight line.
+- Dates in `YYYY-MM-DD`. Keep log chronology consistent (newest top or bottom, pick one).
+- Concise but complete enough to reconstruct intent and method.
+
+## Record Template
+
+Use `assets/record-template.md`. It contains the State-layer sections, the `Work Path & Problem-Solving Log`, and a `Reusable Methods & Pitfalls` rollup that mirrors the tagged signals for easy harvest.
+
+## Entry Checklists
+
+State-layer change-log entry answers: what changed, where, why, how implemented, what assumptions changed, how verified, what the next person should watch for.
+
+Work-path episode answers: what problem, what was considered, what was tried and what failed, what worked, why it worked at root, and what reusable method/pitfall/decision/heuristic it yields (tagged).
