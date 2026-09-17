@@ -44,11 +44,11 @@ On an abort criterion or health regression, stop and run the prepared rollback
 when authorized and safer, then verify its signal. Otherwise preserve evidence
 and mark the action blocked rather than improvising a riskier recovery.
 
-**🔴 CHECKPOINT — before the first state-changing action, and again whenever the working unit grows, run this check. Any "yes": work from the named level above before acting, instead of acting first and recovering later.**
+**🔴 CHECKPOINT — before the first state-changing action, and again whenever the working unit grows, run this check. Bullets 1-2: apply the named level above, in full. Bullet 3: stop and state the real boundary. In every case, act after the check, never before it and reconcile later.**
 
-- **Is the action destructive, irreversible, production-facing, privileged, or materially paid?** → *the High impact level*: authorization for that exact action, plus a usable backup, dry run, or staged execution.
-- **Is the target shared or persistent state with a practical reversal?** → *the Shared recoverable level*: confirm the target, prefer an idempotent or isolated unit, and name the rollback and its success signal before changing anything.
-- **Would the next unit expand the scope or the authority the request actually granted?** → stop and state the real boundary before acting.
+- **Is the action destructive, irreversible, production-facing, privileged, or materially paid?** → *High impact*.
+- **Is the target shared or persistent state with a practical reversal?** → *Shared recoverable*.
+- **Would the next unit expand the scope or the authority the request actually granted?** → stop; state the real boundary and get that expansion authorized before acting.
 
 ## Work In Verified Units
 
@@ -120,7 +120,7 @@ Give each required criterion one state: `PASS`, `FAILED`, `BLOCKED`, or
 5. `NOT_VERIFIED` if output exists but evidence is inadequate to establish a
    reliable result.
 
-**🛑 STOP — assign the state before writing the final report. A `PASS` requires direct evidence covering that criterion; when the covering check was unavailable, the criterion is `NOT_VERIFIED` or `BLOCKED`, never `PASS`.**
+**🛑 STOP — assign the state before writing the final report. A `PASS` requires direct evidence covering that criterion; when the covering check was unavailable, that criterion is `NOT_VERIFIED`, never `PASS`. Take the overall state from the ordered list above, first match.**
 
 Use the first matching state. Never present a non-`PASS` result as complete.
 
