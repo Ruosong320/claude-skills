@@ -35,7 +35,7 @@ Keep using the same path for the project unless told to change.
 
 1. Read the current record if it exists.
 2. If absent, create it from `assets/record-template.md`.
-3. Fill known metadata: project, record path, repo root, creation date, current task, maintainer agent.
+3. Fill the `Metadata` fields as named in `assets/record-template.md`: project, repository root, record file, created, last updated, maintainer agent, current task.
 4. Single source of truth: scope/brief and architecture live HERE. Other skills (planner, README) should reference this record, not re-author it. Preserve user-authored content; append and update, do not rewrite history unless asked to clean up.
 
 ## What To Record — State Layer
