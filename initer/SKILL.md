@@ -46,6 +46,8 @@ For each checklist item, mark one of:
 
 Ask only about `Unclear` and `Blocked` items that matter now. Prefer 3-7 concise questions per round. Group related questions. Avoid asking about details that can be safely inferred from repository conventions or inspected locally.
 
+If the user asks to skip the questions and start coding, or a question you just asked turns out to be answerable from the repo, config, or docs, take the matching row of `When The Clarification Loop Stalls` rather than proceeding.
+
 Questions must be specific enough that the user's answer can change implementation. Avoid broad questions like "Any preferences?" unless a concrete decision list would be misleading.
 
 ### 4. Iterate Until Boundaries Are Clear
@@ -57,6 +59,8 @@ After each user answer:
 3. Ask the next focused round if needed.
 
 Continue until all blocking items are resolved and only safe assumptions remain.
+
+If the user stops answering for two consecutive rounds, reverses a decision they already confirmed, answers several checklist items in one reply, or answers in a way the repo contradicts, take the matching row of `When The Clarification Loop Stalls`.
 
 ### 5. Confirm The Build Brief
 
@@ -72,6 +76,8 @@ Before implementation, provide a concise build brief:
 
 Then proceed unless the user corrects the brief or explicitly asks for more planning.
 
+**🛑 STOP — when clarification was skipped at the user's request, or any `Blocked` item is still open, the brief must be shown and acknowledged before implementation starts. Silence counts as acceptance only for a brief the user has actually been shown; it never counts for one they have not seen.**
+
 ## When The Clarification Loop Stalls
 
 The loop assumes a cooperative user answering in rounds. Handle these by table, never continue silently.
@@ -83,6 +89,7 @@ The loop assumes a cooperative user answering in rounds. Handle these by table, 
 | User asks to skip questions and start coding | List only the `Blocked` items with the concrete risk of each, and ask once for confirmation | If the user still insists, start, and mark the Build Brief `clarification skipped at user request; the following boundaries are unconfirmed` |
 | A question you asked turns out to be answerable from the repo, config, or docs | Answer it yourself immediately and withdraw the question; never spend a user round on it | If the repo does not settle it either, re-ask as a concrete choice rather than an open question |
 | One user reply covers several checklist items | Fill each item in, restate your reading, and ask the user to correct only what is wrong | If the reply stays ambiguous on an item, mark that item `Unclear` rather than guessing |
+| The user's answer contradicts what the repo, config, or existing docs actually show | Show both side by side with the file or command that produced the repo side, and ask which governs | If the user does not resolve it, follow the repo — it is what the code will actually run against — and list the divergence under Assumptions in the Build Brief |
 
 ## Checklist Categories
 
@@ -163,7 +170,7 @@ Implementation may start only when:
 - Acceptance criteria or verification method is explicit.
 - Any remaining assumptions are listed and low risk.
 
-If any item above is missing, ask before coding.
+**🔴 CHECKPOINT — walk the list above item by item before writing any implementation code. Any item that is neither satisfied nor listed as a low-risk assumption in the Build Brief: ask, do not code.**
 
 ## Question Style
 
