@@ -144,15 +144,19 @@ reachable, the bounds hold, and the authority covers the action. When that does
 not hold, handle it by this table — never improvise a riskier path.
 
 **This section is the exception clause for the workflow above: where it
-conflicts with "If a safeguard is unavailable, do not act", the retry budget in
-Work In Verified Units, "stop at any bound", "state the evidence gap instead of
-substituting a weaker check", the no-data rule in Bound Monitoring And
-Continuation, or the authority boundary in Scale Assurance To Risk, this table
-governs — but only where one of its rows actually conflicts with that rule; a
-rule no row conflicts with keeps its full force. When one situation matches
-more than one row, take the row whose first-line fix is the most conservative —
-a row that stops, asks, or declines to act outranks any row that proceeds.
-Every exception must still be stated in the final report.**
+conflicts with "If a safeguard is unavailable, do not act" and its restatement
+under `Do Not` ("Do not act at any level while that level's required safeguard
+is unavailable"), the retry budget in Work In Verified Units, "stop at any
+bound", "state the evidence gap instead of substituting a weaker check", the
+no-data rule in Bound Monitoring And Continuation, the authority boundary in
+Scale Assurance To Risk, or "Use the first matching state" in Assign The
+Terminal State, this table governs — but only where one of its rows actually
+conflicts with that rule; a rule no row conflicts with keeps its full force.
+When one situation matches more than one row, rank the candidates by their
+first-line fix and take the highest: a row that declines the action outranks a
+row that stops to ask, and a row that stops to ask outranks a row that proceeds
+with a narrower action. Every exception must still be stated in the final
+report.**
 
 | Trigger | First-line fix | Fallback if that fails |
 |---|---|---|

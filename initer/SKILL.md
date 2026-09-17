@@ -3,11 +3,11 @@ name: initer
 description: Clarify requirements before starting from-zero project builds or new feature work. Use when asked to create a complete new project, scaffold an app, design a system, add a new feature, introduce a new workflow, or make any change whose product, technical, UX, data, integration, security, deployment, or acceptance boundaries are unclear; generate a checklist from the user request, identify unclear boundaries, ask targeted multi-round questions, and begin implementation only after the checklist is sufficiently resolved.
 ---
 
-## 一切提问优先使用弹窗工具让我点击选择，实在没办法弹窗再要求描述。
-
 # Initer
 
 Initer is a pre-implementation clarification gate. It prevents the agent from starting substantial project or feature work while the requirements, boundaries, constraints, or acceptance criteria are still ambiguous.
+
+**一切提问优先使用弹窗工具让我点击选择，实在没办法弹窗再要求描述。** 本 skill 里每一处「提问」都按这一条发送，不是建议。
 
 ## Core Rule
 
@@ -44,7 +44,7 @@ For each checklist item, mark one of:
 
 ### 3. Ask Targeted Questions
 
-Ask only about `Unclear` and `Blocked` items that matter now. Prefer 3-7 concise questions per round. Group related questions. Avoid asking about details that can be safely inferred from repository conventions or inspected locally.
+Ask only about `Unclear` and `Blocked` items that matter now. Prefer 3-7 concise questions per round. Every round goes out through the popup tool per the rule under the title — a question the popup can express must not be downgraded to free text. Group related questions. Avoid asking about details that can be safely inferred from repository conventions or inspected locally.
 
 If the user asks to skip the questions and start coding, take the row beginning *User asks to skip questions and start coding* in `When The Clarification Loop Stalls` rather than proceeding. If a question you just asked turns out to be answerable from the repo, config, or docs, take the row beginning *A question you asked turns out to be answerable from the repo*.
 
@@ -76,7 +76,7 @@ Before implementation, provide a concise build brief:
 
 Then proceed unless the user corrects the brief or explicitly asks for more planning.
 
-**🛑 STOP — when clarification was skipped at the user's request, or any `Blocked` item is still open, the brief must be shown and acknowledged before implementation starts; on this path silence is not acknowledgement. For these cases this overrides the *start* step of the skip row, the proceed-on-defaults fallback of the no-answer row in `When The Clarification Loop Stalls`, and the proceed-on-silence rule in step 5.**
+**🛑 STOP — when clarification was skipped at the user's request, or any `Blocked` item is still open, the brief must be shown and acknowledged before implementation starts; on this path silence is not acknowledgement. For these cases this overrides the *start* step of the skip row in `When The Clarification Loop Stalls` and the proceed-on-silence rule in step 5.**
 
 ## When The Clarification Loop Stalls
 
@@ -84,7 +84,7 @@ The loop assumes a cooperative user answering in rounds. Handle these by table, 
 
 | Trigger | First-line fix | Fallback if that fails |
 |---|---|---|
-| User does not answer, or answers something unrelated, for two consecutive rounds | Cut to the 1-2 most critical `Blocked` items and attach your recommended default so the user only has to confirm | Proceed on the recommended defaults and list every one of them in the Build Brief under Assumptions, marked `user did not confirm` |
+| User does not answer, or answers something unrelated, for two consecutive rounds | Cut to the 1-2 most critical `Blocked` items and attach your recommended default so the user only has to confirm | Proceed on defaults **for `Unclear` items only**, listing each under Assumptions marked `user did not confirm`. A `Blocked` item has no default by definition — if one is still open, it does not get a recommended value; go to the STOP in Confirm The Build Brief and require acknowledgement |
 | User reverses a decision they already confirmed | Trace only the downstream items that decision affects and re-ask those; do not re-run the whole checklist | If the reversal touches work already started, stop and state the rework cost, then let the user choose continue or revert |
 | User asks to skip questions and start coding | List only the `Blocked` items with the concrete risk of each, and ask once for confirmation | If the user still insists, start, and mark the Build Brief `clarification skipped at user request; the following boundaries are unconfirmed` |
 | A question you asked turns out to be answerable from the repo, config, or docs | Answer it yourself immediately and withdraw the question; never spend a user round on it | If the repo does not settle it either, re-ask as a concrete choice rather than an open question |
