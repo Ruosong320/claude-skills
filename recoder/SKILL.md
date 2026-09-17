@@ -77,6 +77,20 @@ After each change point or episode, in the same turn before moving on:
 5. Record verification results; if a check was not run, say so and why ("not run" ≠ "passed").
 6. Keep the final user response consistent with the record.
 
+## When The Record Cannot Be Maintained As Specified
+
+The discipline above assumes a single writable record, a reachable template, and a session that ends cleanly. When it does not hold, handle it by this table — never skip the record silently.
+
+| Trigger | First-line fix | Fallback if that fails |
+|---|---|---|
+| The record path is ambiguous, or the repo already holds several candidate record files | Take the first match by the precedence order above and write the resolved path plus the reason why into the record metadata | If several files already carry real content, pick the richest as the single source of truth and add a one-line pointer in the others. Never double-write |
+| The record exists but its structure differs from the template | Keep the existing structure; add only the template sections that are missing | If the structures cannot be reconciled, add one mapping section saying which existing section answers which template section. Do not restructure the user's sections |
+| `assets/record-template.md` is unreachable | Build the skeleton inline from this skill's section names: `Change Log`, `Work Path & Problem-Solving Log`, `Reusable Methods & Pitfalls`, plus the durable sections | If the record still cannot be created, put its content in the final response and say it was not persisted. Do not discard it silently |
+| A session is ending with the record not yet updated | Write the update before the final response, even if it is only "what changed + what was not verified" | If that is impossible, leave one line at the top: `pending: <summary of this session's changes>`, for the next session to backfill |
+| The work path contains a credential, token, or user-private material | Record where the credential lives and what it was used for, never the value | If a value was already written, replace it with a placeholder and add a `Known Risks` line: plaintext credential entered the record, rotate it |
+| The record has grown too large to scan | Fold finished episodes into their tagged `#method:` / `#pitfall:` lines under `Reusable Methods & Pitfalls`, move the full text to `archive/`, and link it | If it cannot be moved, record only the delta and mark the older block `frozen at YYYY-MM-DD` |
+| The record would be created inside a directory the user marked read-only | Do not create it. Keep the record content in the final response and say why it was not persisted | If the user still wants it persisted, stop and ask where. Do not write outside the allowed area |
+
 ## Writing Standard
 
 Write for a capable newcomer and for a future distillation skill, not for the agent who just did the work.
