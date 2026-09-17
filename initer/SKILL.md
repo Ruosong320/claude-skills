@@ -35,6 +35,8 @@ Summarize the user's request in 1-3 sentences. Identify whether the work is a fr
 
 Create a checklist tailored to the request. Start from the checklist categories below, then remove irrelevant items and add task-specific ones.
 
+Use `<this skill's directory>/assets/checklist-template.md` as the working shape — it carries the same category inventory as a table with a `Status`, a `Notes / Decision`, and a `Question Needed` column per row, which is what the marks below are recorded into. If that file is unreachable, build the table inline from Checklist Categories at the bottom of this file.
+
 For each checklist item, mark one of:
 
 - `Clear`: enough information is known.
