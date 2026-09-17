@@ -109,7 +109,8 @@ before continuing.
 ## Assign The Terminal State
 
 Give each required criterion one state: `PASS`, `FAILED`, `BLOCKED`, or
-`NOT_VERIFIED`. Determine the overall state in this order:
+`NOT_VERIFIED` (`PARTIAL` below is an overall state, not a criterion state).
+Determine the overall state in this order:
 
 1. `FAILED` if evidence disproves any required criterion and no safe permitted
    recovery remains within the execution bounds.
@@ -123,6 +124,16 @@ Give each required criterion one state: `PASS`, `FAILED`, `BLOCKED`, or
 **🛑 STOP — assign the state before writing the final report. A `PASS` requires direct evidence covering that criterion. When the covering check was unavailable, that criterion is `NOT_VERIFIED`; when it was unavailable because a prerequisite is missing, it is `BLOCKED`. Never `PASS`.**
 
 Use the first matching state. Never present a non-`PASS` result as complete.
+
+## Do Not
+
+- Do not act first and reconcile the checkpoint afterwards — a check run after the action it guards is not a check.
+- Do not present a non-`PASS` result as complete.
+- Do not shrink the acceptance scope to fit the budget you chose.
+- Do not take a High impact action while its required safeguard is unavailable.
+- Do not retry an unchanged command, stack speculative patches, or poll indefinitely.
+- Do not substitute a weaker check for an unavailable real one without saying so.
+- Do not expand scope or authority past what the request granted.
 
 ## Report Only What Matters
 
