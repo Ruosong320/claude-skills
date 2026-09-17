@@ -198,6 +198,20 @@ bash tests/e2e/run-all.sh         # 一键回归
 
 所有 E2E 脚本默认 SKIP（缺少凭据即跳过），仅在 CI 或本地显式配置时跑。
 
+## 异常处理
+
+以上流程假设环境正常。下列情况按表处理，不得静默跳过。
+
+| 触发条件 | 一线修复 | 仍失败兜底 |
+|---|---|---|
+| `xm chat login` 卡在浏览器/终端输入（CI、无 TTY） | 改走 env 非交互：`XM_CHAT_USERNAME` + `XM_CHAT_PASSWORD`（或 `XM_CHAT_TOKEN`） | 确认版本 ≥ v1.8.24；低于则升级，不要试图往 stdin 灌密码 |
+| 新 device 登录后在加密房间看不到历史 | `xm chat e2e restore --key "$XM_CHAT_RECOVERY_KEY"` | 仍不可见 → `xm chat e2e verify @<other>:<server>` 与原设备做 SAS emoji 比对；比对通过仍无历史，说明该备份密钥不含此房间，让用户从原设备重新导出 |
+| `go build` / `go run` 报 `fatal error: 'olm/olm.h'` | 补构建标签：`go build -tags goolm` | 仍失败 → 检查是否误走了 CGO 分支。零 CGO 是硬约束，**不要**去装 libolm |
+| `listen` 收不到消息，或把自己发的也收回来 | 加 `--skip-self`；核对房间 ID 与当前 device | 仍收不到 → `xm chat serve --id <name> restart` 重建 sync；再不行换独立 device 重登（多人共享 device 会互踩 sync 游标与 OTK） |
+| daemon session（serve / persona）无响应或状态错乱 | `xm chat serve --id <name> restart`；`xm chat persona status <name>` 看状态 | restart 无效 → `xm chat persona logs <name> -f` 取日志；Windows 另查 socket 路径分支；仍无解则 `stop` 后 `start` 并保留日志 |
+| 事件触发命令不触发 | 核对 `trigger --id <name>` 与 `serve --id <name> start --room "#x"` 的 id 是否配对 | 仍不触发 → `xm chat trigger --id <name> list` 查注册状态；`agent-reset` 清会话态后重新注册 |
+| token 已经进了 argv / shell history | 立即在 homeserver 侧吊销该 token 并重发 | 清理 shell history 只是补救，不能替代吊销 |
+
 ## 反模式
 
 - ❌ 把 token / 密码塞进 `xm chat login --token "..."` 的 argv（shell history 泄露）
