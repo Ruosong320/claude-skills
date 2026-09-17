@@ -49,3 +49,6 @@ timestamp	commit	skill	old_score	new_score	status	dimension	note	eval_mode
 2026-09-17T11:33	b3c7d5b	ship-solution	407->407行	3-0 better	keep	dim4/dim3	j1 判改前：枚举把 §1.1 的「且影响实现」限定丢掉、把条件闸门变成无条件闸门；j2/j3 判改后：§1.1 的去处不含「缺用户确认」，指针欠范围。多数取改后	paired
 2026-09-17T11:33	b3c7d5b	process-thinker	245->245行	3-0 better	keep	dim3/dim7	j2 判改前：闸门从句把 🛑 挪到规划前，与该行「落盘前」冲突；j1/j3 判改后：内联从句是那条行的弱化复述，读到时更弱的副本生效	paired
 2026-09-17T11:33	366e75c	real-solution-plan	275->302行	3-0 better	keep	dim3/dim4	rsp1 首轮，3×clear：A 是纯正向流程，检索不可用/无先验/无先例时无话可说；B 六行全有具名指针	paired
+2026-09-17T11:34	-	ship-it-for-real	-	-	stop	HL-4	连续四轮（sifr3/4/5/6）多数 margin 全为 slight，停止加轮	dry_run
+2026-09-17T11:34	-	ship-solution	-	-	stop	HL-4	ss3-ss7 连续五轮多数 margin 全为 slight，停止加轮	dry_run
+2026-09-17T11:34	-	process-thinker	-	-	stop	HL-4	pt9-pt11 连续三轮多数 margin 全为 slight，停止加轮	dry_run
