@@ -16,7 +16,7 @@ Verification is pushed to where the work happens. "Not run" is never "pass." A p
 
 Do not split vague work. First verify the requirement boundary is clear enough to plan. If goal, scope, acceptance criteria, main workflows, data/state, or technical constraints are unclear, ask targeted questions or hand back to Initer before creating stages.
 
-Once planning starts, every phase must carry a **concrete, executable acceptance gate** defined up front — the exact command, check, screenshot, or observation that will prove the phase works. A gate you cannot execute is not a gate; rewrite it until it is checkable.
+Once planning starts, every phase must carry a **concrete, executable acceptance gate** defined up front — the exact command, check, screenshot, or observation that will prove the phase works. A gate you cannot execute is not a gate; rewrite it until it is checkable. If no checkable form exists at all, take the unrunnable-gate row of `When The Phase Plan Breaks` rather than shipping an unverifiable phase as verified.
 
 ## Required Inputs
 
@@ -52,6 +52,12 @@ Each phase includes:
 
 Within each phase: discovery → architecture/interface decisions → data model/contracts → core implementation → external surfaces/UI → verification → record update → phase acceptance. Adjust to fit the project.
 
+**🔴 CHECKPOINT — before executing the first phase, and again whenever a phase boundary moves or a requirement changes mid-flight, run this check. Any "yes": work from the named row of `When The Phase Plan Breaks` before proceeding, instead of proceeding and reconciling at the rollup.**
+
+- **Is this phase's acceptance gate not executable as written?** → *the unrunnable-gate row*.
+- **Has a requirement changed since the plan was confirmed?** → *the changed-requirement row*.
+- **Does the next phase depend on a `Partial` the user has not explicitly accepted?** → *the unaccepted-partial row*.
+
 ### 5. Execute Each Phase With Its Gate
 
 For every phase, in order:
@@ -59,7 +65,7 @@ For every phase, in order:
 1. Implement the phase tasks.
 2. Update the Recoder record for the phase's change points (including the work path / problem-solving notes Recoder now captures).
 3. **Run the phase acceptance gate against real evidence** using the rubric below. Capture the evidence (command output, test result, screenshot, observed behavior) — do not assert success from code reading alone when the behavior is observable.
-4. Mark the phase `Pass` / `Partial` / `Fail`. Only a `Pass` (or an explicitly user-accepted `Partial`) unlocks the next phase. A `Fail` stays in the current phase until fixed.
+4. **🛑 STOP — assign the verdict from evidence captured at this phase's own gate, never from the fact that the tasks were completed.** A `Pass` requires direct evidence covering that gate's pass condition; when that evidence was not obtained, the verdict is `Not Verified` or `Partial`, never `Pass`. Then mark the phase `Pass` / `Partial` / `Fail`. Only a `Pass` (or an explicitly user-accepted `Partial`) unlocks the next phase. A `Fail` stays in the current phase until fixed.
 
 This replaces the old "verify everything at the end" model. By the time the last phase passes, delivery is already substantially verified.
 
@@ -99,6 +105,19 @@ Be strict about user-facing correctness, data integrity, security, and that the 
 - `Pass`: all acceptance-critical items implemented, verified, recorded; only low-risk follow-ups remain.
 - `Conditional Pass`: core goal works; non-blocking gaps remain (partial docs, deferred scope, minor polish) — state exactly what is and isn't accepted.
 - `Fail`: any acceptance-critical item missing, broken, unverified at unacceptable risk, undocumented enough to block handoff, or contradicted by the record. State the minimum fixes required.
+
+## When The Phase Plan Breaks
+
+The workflow above assumes every gate is runnable, every phase boundary is right, and the requirement holds still. When it does not, handle it by this table — never carry a broken phase into a green rollup.
+
+| Trigger | First-line fix | Fallback if that fails |
+|---|---|---|
+| A phase's acceptance gate cannot be executed as written — no environment, no data, no reachable entry point | Rewrite the gate into the strongest check that *can* run against the real artifact (targeted command, fixture, screenshot, observed behavior), and record what it does not cover | If no executable check exists at all, mark the phase `Not Verified` rather than `Pass`, and state in the rollup exactly what a reviewer must inspect by hand and why automation was impossible |
+| A phase fails its gate and the cause is not inside the phase — the boundary is wrong, a dependency was mis-ordered, or the phase is not independently inspectable | Re-cut or re-order the boundary before writing more code; state which boundary moved and why. The phase list is a draft, not a contract | If re-cutting would invalidate the confirmed plan, stop and take it to the user as a plan amendment rather than absorbing it silently. Re-run the gate of any merged phase and say which verdicts were superseded |
+| A requirement changes after the plan was confirmed | Name the exact requirement and the exact phases whose gates it invalidates; redefine those gates before continuing | If the user wants to continue without re-planning, continue but mark every affected phase `Partial`, and lead the rollup with the fact that its gates no longer match the requirement |
+| The gate is green but the phase's real behavior is visibly wrong — the gate did not cover the real requirement | Stop. Name the real behavior the gate fails to cover and strengthen the gate before accepting the phase | If the user insists the original gate is enough, accept it, but lead the rollup with: gate does not cover <X>, actual behavior is <Y> |
+| A phase can only be finished as `Partial` and the next phase depends on it | Ask the user to accept that specific `Partial`, stating what is missing and what the next phase inherits | If the user does not respond and the work is reversible, hold the next phase rather than stacking on an unaccepted gap, and state the hold in the rollup |
+| A `Partial` accepted earlier turns out to be load-bearing for the delivery | Re-open that phase, re-run its gate, and re-issue the verdict | If it cannot be re-opened, downgrade the rollup to `Conditional Pass` or `Fail` and name the phase explicitly — never carry a stale `Partial` into a `Pass` |
 
 ## Splitting Heuristics
 
