@@ -26,11 +26,11 @@ If the request is for read-only analysis, keep it read-only. If the user says "j
    - Trace behavior far enough to understand ownership boundaries and side effects.
    - Name the minimal edit surface before changing files: target files, relevant functions/classes/components, and why these are sufficient.
 
-**🔴 CHECKPOINT — before the first write, run this check. Any "yes": do not patch first and reconcile later — take the matching row of the `When The Scoped Workflow Breaks` table instead.**
+**🔴 CHECKPOINT — before the first write, and again whenever the edit surface changes, run this check. Any "yes": work from the named row of the `When The Scoped Workflow Breaks` table before patching, instead of patching first and reconciling later.**
 
-- **🛑 Is this irreversible?** Schema migration, file deletion, public-interface or published-data change.
-- **Is the named change point one of several callers of the same broken logic?**
-- **Has the investigation widened the scope past the request?**
+- **Is this irreversible?** Schema migration, file deletion, public-interface or published-data change. → *the irreversible-edit row*.
+- **Is the named change point one of several callers of the same broken logic?** → *the shared-caller row*.
+- **Has the investigation widened the scope past the request?** → *the widened-scope row*.
 
 3. Patch in the local style.
    - Match the surrounding file's programming habits: naming, control flow, abstraction level, error handling, comments, formatting, import order, and test style.

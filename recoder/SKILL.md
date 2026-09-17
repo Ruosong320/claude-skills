@@ -25,11 +25,11 @@ For qualifying work, resolve the record path from existing evidence:
 
 Keep using the same path for the project unless told to change.
 
-**🔴 CHECKPOINT — before creating a record file or restructuring an existing one, run this check. Any "yes": do not write first and reconcile later — take the matching row of the `When The Record Cannot Be Maintained As Specified` table instead.**
+**🔴 CHECKPOINT — before creating a record file, restructuring an existing one, or appending in a way that changes its structure, run this check. Any "yes": work from the named row of the `When The Record Cannot Be Maintained As Specified` table before writing, instead of writing first and reconciling later.**
 
-- **Is the path a guess rather than a resolved value?** The precedence above or the user decides it, never a plausible-sounding default picked mid-task.
-- **🛑 Is this user-authored content about to be restructured?** Append and update; the user confirms this one, not you.
-- **Is the target outside a writable area?**
+- **Is the path a guess rather than a resolved value?** The precedence above or the user decides it, never a plausible-sounding default picked mid-task. → *the ambiguous-path row*.
+- **Is this user-authored content about to be restructured?** → *the user-authored-content row*.
+- **Is the target outside a writable area?** → *the read-only-directory row*.
 
 ## Record File Setup
 
@@ -78,7 +78,7 @@ After each change point or episode, in the same turn before moving on:
 
 1. Append the State-layer entry under `Change Log`.
 2. Append the Work-path episode under `Work Path & Problem-Solving Log` (with tagged signals).
-3. Update affected durable sections (`Architecture Map`, `Key Flows`, `Data Model`, `Public Interfaces`, `Dependency & Configuration Map`, `Testing & Verification`, `Known Risks`).
+3. Update affected durable sections (`Architecture Map`, `Key Flows`, `Data Model & State`, `Public Interfaces`, `Dependency & Configuration Map`, `Testing & Verification`, `Known Risks, Assumptions, And Open Questions`) — the names as they appear in `assets/record-template.md`.
 4. Use concrete paths and the specific symbols/routes/commands/sections touched.
 5. Record verification results; if a check was not run, say so and why ("not run" ≠ "passed").
 6. Keep the final user response consistent with the record.
@@ -91,11 +91,13 @@ The discipline above assumes a single writable record, a reachable template, and
 |---|---|---|
 | The record path is ambiguous, or the repo already holds several candidate record files | Take the first match by the precedence order above and write the resolved path plus the reason why into the record metadata | If several files already carry real content, pick the richest as the single source of truth and add a one-line pointer in the others. Never double-write |
 | The record exists but its structure differs from the template | Keep the existing structure; add only the template sections that are missing | If the structures cannot be reconciled, add one mapping section saying which existing section answers which template section. Do not restructure the user's sections |
+| The required change would restructure user-authored content rather than append to it | Stop before writing. Name exactly what would be restructured and why, and get the user's confirmation for that specific restructure | If the user does not confirm, append alongside the existing content instead of rewriting it. Never rewrite their sections |
 | `assets/record-template.md` is unreachable | Build the skeleton inline from this skill's section names: `Change Log`, `Work Path & Problem-Solving Log`, `Reusable Methods & Pitfalls`, plus the durable sections | If the record still cannot be created, put its content in the final response and say it was not persisted. Do not discard it silently |
 | A session is ending with the record not yet updated | Write the update before the final response, even if it is only "what changed + what was not verified" | If that is impossible, leave one line at the top: `pending: <summary of this session's changes>`, for the next session to backfill |
 | The work path contains a credential, token, or user-private material | Record where the credential lives and what it was used for, never the value | If a value was already written, replace it with a placeholder and add a `Known Risks` line: plaintext credential entered the record, rotate it |
 | The record has grown too large to scan | Fold finished episodes into their tagged `#method:` / `#pitfall:` lines under `Reusable Methods & Pitfalls`, move the full text to `archive/`, and link it | If it cannot be moved, record only the delta and mark the older block `frozen at YYYY-MM-DD` |
 | The record would be created inside a directory the user marked read-only | Do not create it. Keep the record content in the final response and say why it was not persisted | If the user still wants it persisted, stop and ask where. Do not write outside the allowed area |
+| The write fails part-way, or the file is locked — permission denied, read-only mount, disk full, a concurrent writer | Re-read the file to see what actually landed, then retry the same content | If it still fails, restore the file to its last complete state where possible and leave `pending: <this change point>` at the top for the next session to backfill. Never report the record as updated |
 
 ## Writing Standard
 
