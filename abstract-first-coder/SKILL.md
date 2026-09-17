@@ -1,6 +1,6 @@
 ---
 name: abstract-first-coder
-description: "Write Python code in the abstraction-first style used by knowledge_graph_xm: define domain data models, abstract interfaces, strategy classes, default implementations, pipeline orchestration, dependency injection, async contracts, and verification hooks before adding concrete behavior. Use when Codex creates or modifies project code that should be extensible, replaceable, and readable by future agents."
+description: "Write Python code in the abstraction-first style used by knowledge_graph_xm: define domain data models, abstract interfaces, strategy classes, default implementations, pipeline orchestration, dependency injection, async contracts, and verification hooks before adding concrete behavior. Use when creating or modifying project code that should be extensible, replaceable, and readable by future agents."
 ---
 
 # Abstract First Coder
