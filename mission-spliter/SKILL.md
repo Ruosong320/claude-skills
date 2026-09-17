@@ -111,7 +111,7 @@ Be strict about user-facing correctness, data integrity, security, and that the 
 
 The workflow above assumes every gate is runnable, every phase boundary is right, and the requirement holds still. When it does not, handle it by this table — never carry a broken phase into a green rollup.
 
-**This section is the exception clause for the workflow above: where it conflicts with "A `Fail` stays in the current phase until fixed", "only a `Pass` (or an explicitly user-accepted `Partial`) unlocks the next phase", or "split by independently verifiable outcome", this table governs. Any rule this table does not touch keeps its full force. When one situation matches more than one row, take the row whose first-line fix is the most conservative — a row that stops, asks, or declines to write outranks any row that proceeds. Every exception must still name the phase it touched in the rollup.**
+**This section is the exception clause for the workflow above: where it conflicts with "A `Fail` stays in the current phase until fixed", "only a `Pass` (or an explicitly user-accepted `Partial`) unlocks the next phase", or "split by independently verifiable outcome", this table governs — but only where one of its rows actually conflicts with that rule; a rule no row conflicts with keeps its full force. When one situation matches more than one row, take the row whose first-line fix is the most conservative — a row that stops, asks, or declines to write outranks any row that proceeds. Every exception must still name the phase it touched in the rollup.**
 
 | Trigger | First-line fix | Fallback if that fails |
 |---|---|---|

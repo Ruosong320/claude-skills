@@ -43,7 +43,7 @@ If the request is for read-only analysis, keep it read-only. If the user says "j
    - If no existing test applies, perform a lightweight behavioral smoke test that exercises the changed path.
    - If the smoke test cannot run, explain the concrete blocker and say what the closest verification available actually covered. When nothing covered the changed path, take the row beginning *"Done" cannot be checked from anything available* in `When The Scoped Workflow Breaks` before reporting.
 
-**🛑 STOP — report the outcome from the check that actually ran. When no check covered the changed path, name exactly what was left uncovered.**
+**🛑 STOP — report the outcome from the check that actually ran. A green result from a check that does not cover the changed path is not a pass; when no check covered it, name exactly what was left uncovered.**
 
 5. Report tersely.
    - State what changed, where, and which acceptance criteria it covers.
@@ -93,7 +93,7 @@ Do not claim full validation from a weak smoke test. Say exactly what was and wa
 
 The workflow assumes the change stays small, reversible, and verifiable. When it turns out otherwise, handle it by this table — do not keep patching and hope.
 
-**This section is the exception clause for the workflow above: where it conflicts with the Core Rule ("investigate and implement without a questionnaire or confirmation round"), step 2's "before changing files", step 3's "keep changes narrow", or step 4's "run the smallest meaningful verification", this table governs. Any rule this table does not touch keeps its full force. When one situation matches more than one row, take the row whose first-line fix is the most conservative — a row that stops, asks, or declines to write outranks any row that proceeds. Every exception must still be named in the report.**
+**This section is the exception clause for the workflow above: where it conflicts with the Core Rule ("investigate and implement without a questionnaire or confirmation round"), step 2's "before changing files", step 3's "keep changes narrow", or step 4's "run the smallest meaningful verification", this table governs — but only where one of its rows actually conflicts with that rule; a rule no row conflicts with keeps its full force. When one situation matches more than one row, take the row whose first-line fix is the most conservative — a row that stops, asks, or declines to write outranks any row that proceeds. Every exception must still be named in the report.**
 
 | Trigger | First-line fix | Fallback if that fails |
 |---|---|---|
@@ -102,4 +102,4 @@ The workflow assumes the change stays small, reversible, and verifiable. When it
 | Local style is inconsistent, or the file has no settled convention | Match the dominant pattern within the same file, then the nearest sibling file | If it is still ambiguous, match the surrounding block and say which convention was chosen |
 | The edit turns out to be irreversible — schema migration, file deletion, public-interface or published-data change | Stop before writing. Name what cannot be undone, what the rollback would cost, and get confirmation | If it was already applied, say so immediately with the exact reversal steps. Never attempt a second silent edit to cover it |
 | Unrelated user changes already sit in the worktree on the files being patched | Read the current content first and patch around them; never revert or reformat them | If the user's edits conflict with the required change, stop and show the conflict rather than picking a side |
-| "Done" cannot be checked from anything available | Before patching, propose one concrete check and agree on what counts as done. If the patch already landed and no available check covers it, do not substitute a weaker claim — name exactly what was left uncovered and what a reviewer must inspect by hand | If no check is possible at all, say the change is unverifiable and state what a reviewer should inspect by hand |
+| "Done" cannot be checked from anything available | Before patching, propose one concrete check and agree on what counts as done. If the patch already landed and no available check covers it, do not substitute a weaker claim — name exactly what was left uncovered | If no check is possible at all, say the change is unverifiable and state what a reviewer should inspect by hand |
