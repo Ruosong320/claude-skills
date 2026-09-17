@@ -106,8 +106,6 @@ xm chat listen --json --skip-self --mentions-only
 
 优先级：flag/arg > env > 交互提示。凭据不得进 argv（暴露给 shell history），env 变量 + 进程注入是脚本/CI 的标准做法。
 
-**🔴 CHECKPOINT · 🛑 STOP：不要把 token / 密码写进 `--token` 之类的 flag。argv 对同机其他进程与 shell history 可见，一旦写入即视为已泄露，只能吊销重发，擦 history 不能补救。**
-
 ## 关键约束
 
 - **凭据安全**：配置文件 0600，token 不得打印到 stdout。`xm chat status --verify` 会校验 token 但**不**打印明文。
@@ -224,7 +222,5 @@ bash tests/e2e/run-all.sh         # 一键回归
 - ✅ 用 `XM_CHAT_TOKEN=<token> xm chat login` 或 stdin 注入
 - ❌ 多人共享同一 device（sync 游标 / OTK 互踩，persona AB-anye-035 暴露的不稳定根因）
 - ✅ 每人/每角色独立 device：`xm chat login --device <name>`
-
-**🛑 STOP：发现两个角色/两个进程共用同一 device 时立即停止操作并隔离出独立 device，不要在共享 device 上继续发消息或起 serve —— 继续用会破坏他人的 sync 游标与 OTK。**
 - ❌ 不带 `-tags goolm` 直接 `go build` → `fatal error: 'olm/olm.h'`
 - ❌ E2E 房间新 device 不 restore 直接发消息 → 历史消息全丢
