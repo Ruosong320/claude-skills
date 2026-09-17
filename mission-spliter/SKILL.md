@@ -65,7 +65,7 @@ For every phase, in order:
 1. Implement the phase tasks.
 2. Update the Recoder record for the phase's change points (including the work path / problem-solving notes Recoder now captures).
 3. **Run the phase acceptance gate against real evidence** using the rubric below. Capture the evidence (command output, test result, screenshot, observed behavior) — do not assert success from code reading alone when the behavior is observable.
-4. **🛑 STOP — assign the verdict from evidence captured at this phase's own gate, never from the fact that the tasks were completed.** A `Pass` requires direct evidence covering that gate's pass condition; when that evidence was not obtained, the verdict is `Not Verified` or `Partial`, never `Pass`. Then mark the phase `Pass` / `Partial` / `Fail` / `Not Verified`. Only a `Pass` (or an explicitly user-accepted `Partial`) unlocks the next phase. A `Fail` stays in the current phase until fixed.
+4. **🛑 STOP — assign the verdict from evidence captured at this phase's own gate, never from the fact that the tasks were completed.** If the gate is green but the phase's real behavior is visibly wrong, stop and take the row beginning *"The gate is green but the phase's real behavior is visibly wrong"* before accepting it. A `Pass` requires direct evidence covering that gate's pass condition; when that evidence was not obtained, the verdict is `Not Verified` or `Partial`, never `Pass`. Then mark the phase `Pass` / `Partial` / `Fail` / `Not Verified`. Only a `Pass` (or an explicitly user-accepted `Partial`) unlocks the next phase. A `Fail` stays in the current phase until fixed.
 
 This replaces the old "verify everything at the end" model. By the time the last phase passes, delivery is already substantially verified.
 
@@ -75,7 +75,7 @@ After the last phase, produce the delivery acceptance as a **rollup**, not a re-
 
 - Aggregate the per-phase verdicts.
 - Run only the cross-cutting checks that no single phase covered: end-to-end workflow, security/privacy constraints, handoff readiness, and that excluded scope was not accidentally built.
-- Confirm the Recoder record is complete and non-contradictory.
+- Confirm the Recoder record is complete and non-contradictory. If a `Partial` accepted earlier turns out to be load-bearing here, take the row beginning *"A `Partial` accepted earlier turns out to be load-bearing"* before issuing the rollup verdict.
 - Decide overall status: `Pass` | `Conditional Pass` | `Fail`.
 
 ## Per-Phase Acceptance Rubric
@@ -126,7 +126,6 @@ The workflow above assumes every gate is runnable, every phase boundary is right
 - Do not mark a phase `Pass` from task completion, from code reading, or because the next phase is waiting.
 - Do not absorb a wrong boundary, a changed requirement, or an unaccepted `Partial` silently — each one goes to its named row of `When The Phase Plan Breaks`.
 - Do not let the rollup introduce a verdict that no phase gate produced.
-- Do not carry a broken phase into a green rollup to protect the schedule.
 
 ## Splitting Heuristics
 
