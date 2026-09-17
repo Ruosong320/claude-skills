@@ -28,20 +28,22 @@ If the request is for read-only analysis, keep it read-only. If the user says "j
 
 **🔴 CHECKPOINT — before the first write, and again whenever the edit surface changes, run this check. Any "yes": work from the named row of the `When The Scoped Workflow Breaks` table before patching, instead of patching first and reconciling later.**
 
-- **Is this irreversible?** Schema migration, file deletion, public-interface or published-data change. → *the irreversible-edit row*.
-- **Is the named change point one of several callers of the same broken logic?** → *the shared-caller row*.
-- **Has the investigation widened the scope past the request?** → *the widened-scope row*.
+- **Is this irreversible?** Schema migration, file deletion, public-interface or published-data change. → the row beginning *The edit turns out to be irreversible*.
+- **Is the named change point one of several callers of the same broken logic?** → the row beginning *The named change point is one of several callers of the same broken logic*.
+- **Has the investigation widened the scope past the request?** → the row beginning *The investigation widens the change beyond the request*.
 
 3. Patch in the local style.
-   - Match the surrounding file's programming habits: naming, control flow, abstraction level, error handling, comments, formatting, import order, and test style.
+   - Match the surrounding file's programming habits: naming, control flow, abstraction level, error handling, comments, formatting, import order, and test style. If the file has no settled convention, or the surrounding style is inconsistent, take the row beginning *Local style is inconsistent* in `When The Scoped Workflow Breaks`.
    - Match the user's writing and language habits in strings, prompts, docs, comments, and commit-like text.
    - Keep changes narrow. Avoid drive-by refactors, broad rewrites, new dependencies, or style normalization unless required for the acceptance criteria.
-   - Preserve unrelated user changes in the worktree.
+   - Preserve unrelated user changes in the worktree. If unrelated user changes already sit on the files being patched, take the row beginning *Unrelated user changes already sit in the worktree*.
 
 4. Smoke test immediately.
    - Run the smallest meaningful verification right after the edit: focused unit test, targeted command, lint/typecheck for touched area, local script invocation, or a manual/browser check for UI work.
    - If no existing test applies, perform a lightweight behavioral smoke test that exercises the changed path.
-   - If the smoke test cannot run, explain the concrete blocker and provide the closest verification performed.
+   - If the smoke test cannot run, do not substitute a weaker claim for it: take the row beginning *"Done" cannot be checked from anything available* in `When The Scoped Workflow Breaks` before reporting.
+
+**🛑 STOP — report the outcome from the check that actually ran. A green result from a check that does not cover the changed path is not a pass; when no check covered it, name exactly what was left uncovered.**
 
 5. Report tersely.
    - State what changed, where, and which acceptance criteria it covers.
@@ -90,6 +92,8 @@ Do not claim full validation from a weak smoke test. Say exactly what was and wa
 ## When The Scoped Workflow Breaks
 
 The workflow assumes the change stays small, reversible, and verifiable. When it turns out otherwise, handle it by this table — do not keep patching and hope.
+
+**This section is the exception clause for the workflow above: where it conflicts with the Core Rule ("investigate and implement without a questionnaire or confirmation round"), step 2's "before changing files", step 3's "keep changes narrow", or step 4's "run the smallest meaningful verification", this table governs. The same holds for any rule not listed. When one situation matches more than one row, work from the higher row. Every exception must still be named in the report.**
 
 | Trigger | First-line fix | Fallback if that fails |
 |---|---|---|

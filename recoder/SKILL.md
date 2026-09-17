@@ -27,14 +27,14 @@ Keep using the same path for the project unless told to change.
 
 **🔴 CHECKPOINT — before creating a record file, restructuring an existing one, or appending in a way that changes its structure, run this check. Any "yes": work from the named row of the `When The Record Cannot Be Maintained As Specified` table before writing, instead of writing first and reconciling later.**
 
-- **Is the path a guess rather than a resolved value?** The precedence above or the user decides it, never a plausible-sounding default picked mid-task. → *the ambiguous-path row*.
-- **Is this user-authored content about to be restructured?** → *the user-authored-content row*.
-- **Is the target outside a writable area?** → *the read-only-directory row*.
+- **Is the path a guess rather than a resolved value?** The precedence above or the user decides it, never a plausible-sounding default picked mid-task. → the row beginning *The record path is ambiguous*.
+- **Is this user-authored content about to be restructured?** → the row beginning *The required change would restructure user-authored content*.
+- **Is the target outside a writable area?** → the row beginning *The record would be created inside a directory the user marked read-only*.
 
 ## Record File Setup
 
-1. Read the current record if it exists.
-2. If absent, create it from `assets/record-template.md`.
+1. Read the current record if it exists. If it exists but its structure differs from the template, take the row beginning *The record exists but its structure differs from the template* in `When The Record Cannot Be Maintained As Specified`.
+2. If absent, create it from `assets/record-template.md`. If that file is unreachable, take the row beginning *`assets/record-template.md` is unreachable*.
 3. Fill the `Metadata` fields as named in `assets/record-template.md`: project, repository root, record file, created, last updated, maintainer agent, current task.
 4. Single source of truth: scope/brief and architecture live HERE. Other skills (planner, README) should reference this record, not re-author it. Preserve user-authored content; append and update, do not rewrite history unless asked to clean up.
 
@@ -83,9 +83,13 @@ After each change point or episode, in the same turn before moving on:
 5. Record verification results; if a check was not run, say so and why ("not run" ≠ "passed").
 6. Keep the final user response consistent with the record.
 
+Four failure conditions surface at write time rather than at setup. When one appears, take its row of `When The Record Cannot Be Maintained As Specified` instead of forcing the entry through: the write itself fails or the file is locked (the row beginning *The write fails part-way*), the entry would carry a credential or private material (the row beginning *The work path contains a credential*), the record has grown past scanning (the row beginning *The record has grown too large to scan*), or the session is ending before the update lands (the row beginning *A session is ending with the record not yet updated*).
+
 ## When The Record Cannot Be Maintained As Specified
 
 The discipline above assumes a single writable record, a reachable template, and a session that ends cleanly. When it does not hold, handle it by this table — never skip the record silently.
+
+**This section is the exception clause for the discipline above: where it conflicts with "Keep using the same path for the project", "append and update, do not rewrite history", the single-source-of-truth rule in Record File Setup, or any step of Update Discipline, this table governs. The same holds for any rule not listed. When one situation matches more than one row, work from the higher row. Every exception must still be stated in the final response.**
 
 | Trigger | First-line fix | Fallback if that fails |
 |---|---|---|
