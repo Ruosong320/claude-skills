@@ -80,7 +80,7 @@ Then proceed unless the user corrects the brief or explicitly asks for more plan
 
 ## When The Clarification Loop Stalls
 
-The loop assumes a cooperative user answering in rounds. Handle these by table, never continue silently. When one situation matches more than one row, work from the higher row.
+The loop assumes a cooperative user answering in rounds. Handle these by table, never continue silently. When one situation matches more than one row, take the row whose first-line fix is the most conservative — a row that stops, asks, or declines to write outranks any row that proceeds.
 
 | Trigger | First-line fix | Fallback if that fails |
 |---|---|---|

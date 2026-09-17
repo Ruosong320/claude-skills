@@ -83,6 +83,8 @@ xm chat listen --json --skip-self --mentions-only
 
 完整登录模式、env 变量、多 device、E2E 详见 [login-and-auth.md](references/login-and-auth.md)。
 
+本节各步失败时按「异常处理」表处理，不要反复重试：登录卡在浏览器/终端输入（CI、无 TTY）→ 取以 *`xm chat login` 卡在浏览器/终端输入* 开头的那一行；构建报 `olm/olm.h` → 取以 *`go build` / `go run` 报* 开头的那一行（零 CGO 是硬约束，**不要**去装 libolm）。
+
 ## 选型决策（核心岔路）
 
 | 需求 | 推荐 | 说明 |
@@ -108,7 +110,7 @@ xm chat listen --json --skip-self --mentions-only
 
 ## 关键约束
 
-- **凭据安全**：配置文件 0600，token 不得打印到 stdout。`xm chat status --verify` 会校验 token 但**不**打印明文。
+- **凭据安全**：配置文件 0600，token 不得打印到 stdout。`xm chat status --verify` 会校验 token 但**不**打印明文。token 若已进入 argv 或 shell history，取「异常处理」表中以 *token 已经进了 argv / shell history* 开头的那一行处理——这是凭据泄露，优先于其它一切，清理 history 不能替代吊销。
 - **零 CGO**：构建必须 `-tags goolm`（pure-Go Olm），跨平台 Windows / macOS / Linux 全覆盖。
 - **跨平台差异**：守护进程用 Unix socket（macOS/Linux）；Windows 下 socket 路径与文件锁走 `internal/chat/chat_serve_daemon_windows.go` 与 `persona_store_flock_windows.go` 分支（`//go:build windows`）。
 - **E2E 必须 `--e2e`**：`xm chat login --e2e` 才会初始化 Olm/Megolm；不启用登录后无法在加密房间发送。
@@ -146,6 +148,8 @@ xm chat serve --id bot react "#dev" "$EID" "👍"
 xm chat serve --id bot redact "#dev" "$EID" --reason "误发"
 ```
 
+daemon session 无响应或状态错乱时，取「异常处理」表中以 *daemon session（serve / persona）无响应或状态错乱* 开头的那一行处理。
+
 ### 持久 Bot（trigger 模式）
 ```bash
 xm chat serve --id bot start --room "#dev"
@@ -153,6 +157,8 @@ xm chat serve --id bot profile --name "CI Bot"
 xm chat trigger --id bot --context 15 --auto-reply -- bash bot.sh
 xm chat serve --id bot restart   # 更新脚本后无需手动 kill + start
 ```
+
+事件触发命令不生效时，取「异常处理」表中以 *事件触发命令不触发* 开头的那一行处理。
 
 ### AI 虚拟人（persona 模式，推荐）
 ```bash
@@ -181,6 +187,8 @@ xm chat e2e restore --key "$MATRIX_RECOVERY_KEY"     # CI 场景用 env：XM_CHA
 xm chat e2e verify @<other_user>:<server>            # 与原设备 SAS 验证
 ```
 
+新 device 登录后在加密房间看不到历史时，取「异常处理」表中以 *新 device 登录后在加密房间看不到历史* 开头的那一行处理。
+
 ### 多 device 并存
 ```bash
 xm chat login --device alice                        # 独立 device_id
@@ -188,6 +196,8 @@ xm chat login --device bob                          # 共存，互不冲突
 xm chat logout --device alice                       # 精准清理
 xm chat e2e --device bob status                     # 按 device 操作 crypto store
 ```
+
+`listen` 收不到消息、或把自己发的也收回来时，取「异常处理」表中以 *`listen` 收不到消息* 开头的那一行处理。
 
 ## 测试
 
@@ -205,6 +215,8 @@ bash tests/e2e/run-all.sh         # 一键回归
 ## 异常处理
 
 以上流程假设环境正常。下列情况按表处理，不得静默跳过。
+
+**本节是上述各节的例外条款：与正文里的硬约束冲突时（例如零 CGO、凭据不落盘），以本表为准。本表未涉及的规则不受本条款影响，保留全文效力。同一情形命中多行时，取一线修复最保守的那一行——停下、询问、吊销，一律优先于继续推进。每一处例外都必须显式说明。**
 
 | 触发条件 | 一线修复 | 仍失败兜底 |
 |---|---|---|

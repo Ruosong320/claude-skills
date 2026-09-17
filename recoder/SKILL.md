@@ -34,8 +34,8 @@ Keep using the same path for the project unless told to change.
 ## Record File Setup
 
 1. Read the current record if it exists. If it exists but its structure differs from the template, take the row beginning *The record exists but its structure differs from the template* in `When The Record Cannot Be Maintained As Specified`.
-2. If absent, create it from `assets/record-template.md`. If that file is unreachable, take the row beginning *`assets/record-template.md` is unreachable*.
-3. Fill the `Metadata` fields as named in `assets/record-template.md`: project, repository root, record file, created, last updated, maintainer agent, current task.
+2. If absent, create it from `<this skill's directory>/assets/record-template.md`. If that file is unreachable, take the row beginning *`<this skill's directory>/assets/record-template.md` is unreachable*.
+3. Fill the `Metadata` fields as named in `<this skill's directory>/assets/record-template.md`: project, repository root, record file, created, last updated, maintainer agent, current task.
 4. Single source of truth: scope/brief and architecture live HERE. Other skills (planner, README) should reference this record, not re-author it. Preserve user-authored content; append and update, do not rewrite history unless asked to clean up.
 
 ## What To Record — State Layer
@@ -78,25 +78,25 @@ After each change point or episode, in the same turn before moving on:
 
 1. Append the State-layer entry under `Change Log`.
 2. Append the Work-path episode under `Work Path & Problem-Solving Log` (with tagged signals).
-3. Update affected durable sections (`Architecture Map`, `Key Flows`, `Data Model & State`, `Public Interfaces`, `Dependency & Configuration Map`, `Testing & Verification`, `Known Risks, Assumptions, And Open Questions`) — the names as they appear in `assets/record-template.md`.
+3. Update affected durable sections (`Architecture Map`, `Key Flows`, `Data Model & State`, `Public Interfaces`, `Dependency & Configuration Map`, `Testing & Verification`, `Known Risks, Assumptions, And Open Questions`) — the names as they appear in `<this skill's directory>/assets/record-template.md`.
 4. Use concrete paths and the specific symbols/routes/commands/sections touched.
 5. Record verification results; if a check was not run, say so and why ("not run" ≠ "passed").
 6. Keep the final user response consistent with the record.
 
-Four failure conditions surface at write time rather than at setup. When one appears, take its row of `When The Record Cannot Be Maintained As Specified` instead of forcing the entry through: the write itself fails or the file is locked (the row beginning *The write fails part-way*), the entry would carry a credential or private material (the row beginning *The work path contains a credential*), the record has grown past scanning (the row beginning *The record has grown too large to scan*), or the session is ending before the update lands (the row beginning *A session is ending with the record not yet updated*).
+Some failure conditions surface at write time rather than at setup. When one appears, take its row of `When The Record Cannot Be Maintained As Specified` instead of forcing the entry through: the write itself fails or the file is locked (the row beginning *The write fails part-way*), the entry would carry a credential or private material, or the record already contains one (the row beginning *The work path contains a credential*), the record has grown past scanning (the row beginning *The record has grown too large to scan*), or the session is ending before the update lands (the row beginning *A session is ending with the record not yet updated*).
 
 ## When The Record Cannot Be Maintained As Specified
 
 The discipline above assumes a single writable record, a reachable template, and a session that ends cleanly. When it does not hold, handle it by this table — never skip the record silently.
 
-**This section is the exception clause for the discipline above: where it conflicts with "Keep using the same path for the project", "append and update, do not rewrite history", the single-source-of-truth rule in Record File Setup, or any step of Update Discipline, this table governs. The same holds for any rule not listed. When one situation matches more than one row, work from the higher row. Every exception must still be stated in the final response.**
+**This section is the exception clause for the discipline above: where it conflicts with "Keep using the same path for the project", "append and update, do not rewrite history", the "scope/brief and architecture live HERE" half of the single-source-of-truth rule in Record File Setup (its "other skills should reference this record" half stands), or any step of Update Discipline, this table governs. Any rule this table does not touch keeps its full force. When one situation matches more than one row, take the row whose first-line fix is the most conservative — a row that stops, asks, or declines to write outranks any row that proceeds. Every exception must still be stated in the final response.**
 
 | Trigger | First-line fix | Fallback if that fails |
 |---|---|---|
 | The record path is ambiguous, or the repo already holds several candidate record files | Take the first match by the precedence order above and write the resolved path plus the reason why into the record metadata | If several files already carry real content, pick the richest as the single source of truth and add a one-line pointer in the others. Never double-write |
 | The record exists but its structure differs from the template | Keep the existing structure; add only the template sections that are missing | If the structures cannot be reconciled, add one mapping section saying which existing section answers which template section. Do not restructure the user's sections |
 | The required change would restructure user-authored content rather than append to it | Stop before writing. Name exactly what would be restructured and why, and get the user's confirmation for that specific restructure | If the user does not confirm, append alongside the existing content instead of rewriting it. Never rewrite their sections |
-| `assets/record-template.md` is unreachable | Build the skeleton inline from this skill's section names: `Change Log`, `Work Path & Problem-Solving Log`, `Reusable Methods & Pitfalls`, plus the durable sections | If the record still cannot be created, put its content in the final response and say it was not persisted. Do not discard it silently |
+| `<this skill's directory>/assets/record-template.md` is unreachable | Build the skeleton inline from this skill's section names: `Change Log`, `Work Path & Problem-Solving Log`, `Reusable Methods & Pitfalls`, plus the durable sections | If the record still cannot be created, put its content in the final response and say it was not persisted. Do not discard it silently |
 | A session is ending with the record not yet updated | Write the update before the final response, even if it is only "what changed + what was not verified" | If that is impossible, leave one line at the top: `pending: <summary of this session's changes>`, for the next session to backfill |
 | The work path contains a credential, token, or user-private material | Record where the credential lives and what it was used for, never the value | If a value was already written, replace it with a placeholder and add a line under `Known Risks, Assumptions, And Open Questions`: plaintext credential entered the record, rotate it |
 | The record has grown too large to scan | Fold finished episodes into their tagged `#method:` / `#pitfall:` lines under `Reusable Methods & Pitfalls`, move the full text to `archive/`, and link it | If it cannot be moved, record only the delta and mark the older block `frozen at YYYY-MM-DD` |
@@ -116,4 +116,4 @@ Write for a capable newcomer and for a future distillation skill, not for the ag
 
 ## Entry Checklists
 
-Field layout: `assets/record-template.md`. A State-layer entry is complete when it answers what changed, where, why, how implemented, what assumptions changed, how verified, what the next person should watch for. A Work-path episode is complete when it answers what problem, what was considered, what was tried and what failed, what worked, why it worked at root, and what reusable method/pitfall/decision/heuristic it yields (tagged).
+Field layout: `<this skill's directory>/assets/record-template.md`. A State-layer entry is complete when it answers what changed, where, why, how implemented, what assumptions changed, how verified, what the next person should watch for. A Work-path episode is complete when it answers what problem, what was considered, what was tried and what failed, what worked, why it worked at root, and what reusable method/pitfall/decision/heuristic it yields (tagged).

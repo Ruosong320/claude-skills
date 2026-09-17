@@ -62,3 +62,8 @@ timestamp	commit	skill	old_score	new_score	status	dimension	note	eval_mode
 2026-09-17T00:00	52c7ea9	analyze-only	266->266行	3-0 better	keep	dim3/dim7	五行前置条件一一对上五行表；lead-in 不再与 line73 指针冲突	paired
 2026-09-17T00:00	52c7ea9	real-solution-plan	304->307行	3-0 better	keep	dim7/dim3	§12 输出补齐 8 项自检槽位；precedence 纳入第2步优先级顺序	paired
 2026-09-17T00:00	230eff6	abstract-first-coder	318->319行	3-0 better	keep	dim3/dim4	4 处行指针 + 2 个显性标记；5 行表从全部不可达变 4 行可达	paired
+2026-09-17T01:00	c44ad89	understand-first	124->130行	3-0 better	keep	dim3/dim4	🔴闸门四问逐条配动作；行85降级路径接线，闸门不再要求「先补齐」	paired
+2026-09-17T01:00	c44ad89	clean-room-eval	159->161行	3-0 better	keep	dim3/dim4	5 处具名行指针 + 🛑 污染闸门；补污染行（有界重试+终态）	paired
+2026-09-17T01:00	dfff584	prompt-forge	162->164行	3-0 better	keep	dim3/dim7	异常处理表 0→5 条入站指针；闸门去重述、四问逐条给动作	paired
+2026-09-17T01:00	f1a0327	scoped-code-change	102->106行	3-0 better	keep	dim3/dim4	6/6 行可达 + 🛑 报告闸门；恢复 concrete blocker 披露义务	paired
+2026-09-17T01:00	f1a0327	recoder	116->120行	3-0 better	keep	dim3/dim6	9/9 行可达；模板路径加根锚点；凭证行覆盖追溯情形	paired
