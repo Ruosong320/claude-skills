@@ -38,7 +38,9 @@ Apply only the highest applicable level:
 
 External read-only access stays at the lowest level unless privacy, privilege,
 or material cost raises it. Permission is not proof of success. If a safeguard
-is unavailable, do not act. Never expose secrets or unnecessary personal data.
+is unavailable, do not act — take the row beginning *A required safeguard is
+unavailable at the level the action needs* in `When The Execution Cannot Proceed
+As Specified`. Never expose secrets or unnecessary personal data.
 
 On an abort criterion or health regression, stop and run the prepared rollback
 when authorized and safer, then verify its signal. Otherwise preserve evidence
@@ -48,7 +50,7 @@ and mark the action blocked rather than improvising a riskier recovery.
 
 1. **Is the action destructive, irreversible, production-facing, privileged, or materially paid, or does it carry meaningful data-loss risk?** → *High impact*.
 2. **Is the target shared or persistent state with a practical reversal?** → *Shared recoverable*.
-3. **Would the next unit expand the scope or the authority the request actually granted?** → stop; state the real boundary and get that expansion authorized before acting.
+3. **Would the next unit expand the scope or the authority the request actually granted?** → stop; take the row beginning *The action cannot succeed without authority the request did not grant* in `When The Execution Cannot Proceed As Specified` — state the real boundary and get that expansion authorized before acting.
 
 ## Work In Verified Units
 
@@ -65,12 +67,16 @@ cleanup.
 
 Before substantial work, bound elapsed work, command duration, external cost,
 concurrency, and unresolved failure mechanisms according to risk. Keep ordinary
-local bounds implicit, honor stricter user limits, and stop at any bound.
+local bounds implicit, honor stricter user limits, and stop at any bound — take
+the row beginning *A bound is reached with the work incomplete* in `When The
+Execution Cannot Proceed As Specified` for what to report.
 
 For one failure mechanism, permit one baseline attempt and at most two retries.
 Every retry must change a condition capable of producing new evidence. Diagnosis
 does not reset the count; only evidence of a different mechanism does. Do not
-stack speculative patches, repeat an unchanged command, or poll indefinitely.
+stack speculative patches, repeat an unchanged command, or poll indefinitely —
+take the row beginning *The retry budget is exhausted and the failure mechanism
+is unchanged* in `When The Execution Cannot Proceed As Specified`.
 
 When a check fails:
 
@@ -93,7 +99,9 @@ observed behavior, artifacts, diffs, tests, metrics, or screenshots, with
 isolated reproducible checks when feasible.
 Compilation, mocks, exit status, source inspection, model confidence, and user
 silence prove only what they directly cover. If the real check is unavailable,
-state the evidence gap instead of substituting a weaker check without notice.
+state the evidence gap instead of substituting a weaker check without notice —
+take the row beginning *The real check for a required criterion is unavailable*
+in `When The Execution Cannot Proceed As Specified`.
 
 Add security, performance, concurrency, durability, migration, or rollback
 checks only when the changed contract or risk calls for them.
@@ -102,9 +110,13 @@ checks only when the changed contract or risk calls for them.
 
 Monitor only toward a terminal state. Define the signal, success and failure
 thresholds, deadline, no-data rule, and stop action. A missing signal or expired
-deadline is evidence, not a reason to keep polling. For resumable work, reuse
+deadline is evidence, not a reason to keep polling — take the row beginning *The
+monitoring signal never arrives, or the observation window ends with no data* in
+`When The Execution Cannot Proceed As Specified`. For resumable work, reuse
 existing project logs; on resume, inspect current instructions and actual state
-before continuing.
+before continuing — when the actual state contradicts them, take the row
+beginning *On resume, the actual state contradicts the record or the
+instructions*.
 
 ## Assign The Terminal State
 
@@ -124,6 +136,33 @@ Determine the overall state in this order:
 **🛑 STOP — assign the state before writing the final report. A `PASS` requires direct evidence covering that criterion. When the covering check was unavailable, that criterion is `NOT_VERIFIED`; when it was unavailable because a prerequisite is missing, it is `BLOCKED`. Never `PASS`.**
 
 Use the first matching state. Never present a non-`PASS` result as complete.
+
+## When The Execution Cannot Proceed As Specified
+
+The workflow above assumes the required safeguard exists, the real check is
+reachable, the bounds hold, and the authority covers the action. When that does
+not hold, handle it by this table — never improvise a riskier path.
+
+**This section is the exception clause for the workflow above: where it
+conflicts with "If a safeguard is unavailable, do not act", the retry budget in
+Work In Verified Units, "stop at any bound", "state the evidence gap instead of
+substituting a weaker check", the no-data rule in Bound Monitoring And
+Continuation, or the authority boundary in Scale Assurance To Risk, this table
+governs — but only where one of its rows actually conflicts with that rule; a
+rule no row conflicts with keeps its full force. When one situation matches
+more than one row, take the row whose first-line fix is the most conservative —
+a row that stops, asks, or declines to act outranks any row that proceeds.
+Every exception must still be stated in the final report.**
+
+| Trigger | First-line fix | Fallback if that fails |
+|---|---|---|
+| A required safeguard is unavailable at the level the action needs | Do not act. Find a lower-risk equivalent that still meets the goal, or substitute a genuine safeguard — a dry run, staged apply, verified backup, or isolated copy | If nothing can substitute, mark `BLOCKED` and name exactly what would have to change for the action to become safe |
+| The real check for a required criterion is unavailable | State the evidence gap, mark that criterion `NOT_VERIFIED`, and say what the closest available check actually covered | If the criterion is required and cannot be verified at all, the overall state cannot be `PASS`; report `PARTIAL` and name the exact remainder |
+| The retry budget is exhausted and the failure mechanism is unchanged | Stop. Preserve the evidence, state expected versus actual, and report the earliest confirmed divergence | If the user grants more budget, proceed only behind a changed condition capable of producing new evidence — never a repeat of the same attempt |
+| A bound is reached with the work incomplete | Stop at the bound and report the coherent completed unit | Mark `PARTIAL`, name the exact remainder, and let the user decide whether to extend the bound. Do not extend it silently |
+| The action cannot succeed without authority the request did not grant | Stop before acting. Name the exact authority needed and what it would enable | Deliver the in-authority portion, mark the rest `BLOCKED`, and state the boundary explicitly |
+| On resume, the actual state contradicts the record or the instructions | Re-derive from the actual state before continuing, and say what diverged | If the divergence is material and cannot be resolved, report it as the finding rather than proceeding on the stale assumption |
+| The monitoring signal never arrives, or the observation window ends with no data | Treat the missing signal as evidence. Stop monitoring and report what was and was not observed | If the no-data rule leaves the outcome undetermined, assign `NOT_VERIFIED` rather than assuming success |
 
 ## Do Not
 

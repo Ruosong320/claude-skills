@@ -67,3 +67,8 @@ timestamp	commit	skill	old_score	new_score	status	dimension	note	eval_mode
 2026-09-17T01:00	dfff584	prompt-forge	162->164行	3-0 better	keep	dim3/dim7	异常处理表 0→5 条入站指针；闸门去重述、四问逐条给动作	paired
 2026-09-17T01:00	f1a0327	scoped-code-change	102->106行	3-0 better	keep	dim3/dim4	6/6 行可达 + 🛑 报告闸门；恢复 concrete blocker 披露义务	paired
 2026-09-17T01:00	f1a0327	recoder	116->120行	3-0 better	keep	dim3/dim6	9/9 行可达；模板路径加根锚点；凭证行覆盖追溯情形	paired
+2026-09-17T02:00	a272df1	understand-first	130->130行	3-0 better	keep	dim3/dim4	修复二次引入：闸门首条去掉有损尾注	paired
+2026-09-17T02:00	a272df1	clean-room-eval	161->162行	3-0 better	keep	dim3/dim4	污染行自指改具名行；补入案例限「见产出前」定妥	paired
+2026-09-17T02:00	a272df1	prompt-forge	164->171行	2-1 better	keep	dim3/dim4	闸门去重述改指向小节；反编造守卫移入所属表行	paired
+2026-09-17T02:00	a272df1	scoped-code-change	106->106行	3-0 better	keep	dim3/dim4	恢复被误删的「未覆盖路径的绿色结果不算通过」	paired
+2026-09-17T02:00	a272df1	recoder	120->120行	3-0 better	keep	dim3/dim6	兜底表首行自指修复；写时失败条件描述中性化	paired
