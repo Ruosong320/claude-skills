@@ -28,7 +28,7 @@ Forbidden actions:
 - Send messages, update tickets, change remote systems, or perform the recommended action.
 - Invent requirements, behavior, causes, measurements, source content, or conclusions.
 
-If a requested diagnostic is destructive or state-changing, explain the limitation and use existing evidence or a safe read-only alternative. When the existing evidence is not enough to answer at all, take the `evidence needs a state-changing action` row of `When The Analysis Cannot Proceed`. If the user asks both for analysis and implementation, finish and present the analysis first; do not implement while this skill remains the active instruction.
+If a requested diagnostic is destructive or state-changing, explain the limitation and use existing evidence or a safe read-only alternative. When the existing evidence is not enough to answer at all, take the row beginning *The evidence needed to answer only exists behind a state-changing action* in `When The Analysis Cannot Proceed`. If the user asks both for analysis and implementation, finish and present the analysis first; do not implement while this skill remains the active instruction.
 
 ## Analysis Standard
 
@@ -70,7 +70,7 @@ Before detailed analysis, publish a task-specific checklist. Include only releva
 - alternative explanations, failure modes, and risks;
 - verification, validation, confidence, and remaining unknowns.
 
-Use the checklist as a control, not decoration. Address each item explicitly and mark its final status as `supported`, `partially supported`, `unsupported`, `not applicable`, or `not assessed` — `not assessed` is for an item no available evidence can reach, and it is not the same as `unsupported`. An item you cannot assess goes to the `cannot assess a checklist item` row of `When The Analysis Cannot Proceed`; never default it to `unsupported`.
+Use the checklist as a control, not decoration. Address each item explicitly and mark its final status as `supported`, `partially supported`, `unsupported`, `not applicable`, or `not assessed` — `not assessed` is for an item no available evidence can reach, and it is not the same as `unsupported`. An item you cannot assess goes to the row beginning *A checklist item cannot be assessed* in `When The Analysis Cannot Proceed`; never default it to `unsupported`.
 
 ### 4. Build an Evidence Ledger
 
@@ -100,7 +100,7 @@ Prefer primary sources and runtime evidence over summaries or comments. Triangul
 - 可信度：[高/中/低]，依据：[star 数/官方性/时效性]
 ```
 
-If a core conclusion has no supporting evidence, search and supplement before answering. Preserve contradictory evidence rather than averaging it away. If retrieval is unavailable, or two retained sources contradict each other irreconcilably, take the matching row of `When The Analysis Cannot Proceed` instead of deciding alone which one to keep.
+If a core conclusion has no supporting evidence, search and supplement before answering. Preserve contradictory evidence rather than averaging it away. If retrieval is unavailable, take the row beginning *Search is unavailable* in `When The Analysis Cannot Proceed`; if two retained sources contradict each other irreconcilably, take the row beginning *Two retained sources contradict each other*. Do not decide alone which one to keep.
 
 Assess evidence along independent dimensions rather than a vague quality score: authority, proximity to the observation, independence from other sources, relevance to this claim and time horizon, recency, completeness of excluded cases, and reproducibility of the path from source to conclusion. Do not let authority substitute for direct runtime evidence about current behavior, and do not call two sources independent when one copied the other.
 
@@ -167,7 +167,7 @@ Assign confidence per major finding rather than one blanket score:
 - `Medium`: evidence supports the finding but depends on limited sources, bounded inference, or a non-critical unknown.
 - `Low`: evidence is sparse, indirect, conflicting, or sensitive to an unresolved assumption.
 
-Do not use precise probabilities without a defensible calibration basis. State what new evidence would raise, lower, or reverse confidence. A `Low` finding must name why the confidence is low, what evidence is missing, and how to obtain it; if a core conclusion is `Low` and a search could raise it, search before answering rather than shipping the hedge. An unsupported statement is an `Unknown`, not a confidence level: do not hedge with "I think maybe", "usually it should", or "this may relate to X but I have no evidence" — either ground it, label it `Unknown`, or drop it.
+Do not use precise probabilities without a defensible calibration basis. State what new evidence would raise, lower, or reverse confidence. A `Low` finding must name why the confidence is low, what evidence is missing, and how to obtain it; if a core conclusion is `Low` and a search could raise it, search before answering rather than shipping the hedge. An unsupported statement is an `Unknown`, not a confidence level: do not hedge with "I think maybe", "usually it should", or "this may relate to X but I have no evidence" — either ground it, label it `Unknown`, or drop it. When a load-bearing claim's only source is the user's own statement or a secondary summary, take the row beginning *A second opinion is unavailable* in `When The Analysis Cannot Proceed` rather than adjudicating it alone.
 
 ## Report Structure
 
@@ -228,7 +228,7 @@ These are defects, not style preferences: a report that exhibits any of them is 
 
 ## Final Quality Check
 
-**🔴 CHECKPOINT — run this gate before writing the report, not after. An unresolved item is fixed and the analysis re-run; it is never emitted with a note.**
+**🔴 CHECKPOINT — run this gate before writing the report, not after. A gate run after the report it guards is not a gate.**
 
 Before answering, run this gate — the RIGOUR check: `Repeatable`, `Independent`, `Grounded`, `Objective`, `Uncertainty-managed`, `Robust`.
 
@@ -247,14 +247,14 @@ If any item above fails, fix it and re-analyze before answering — do not emit 
 
 ## When The Analysis Cannot Proceed
 
-The workflow above assumes the evidence is reachable, retrieval works, and the sources agree. When that does not hold, handle it by this table — never fill the gap with inference dressed as fact.
+The workflow above assumes the evidence is reachable without changing state, retrieval works, the sources agree, and every load-bearing claim has a source other than the user. When any of that does not hold, handle it by this table — never fill the gap with inference dressed as fact.
 
 | Trigger | First-line fix | Fallback if that fails |
 |---|---|---|
 | Search is unavailable (no network, sandbox, no search tool) | Every conclusion that depends on an industry baseline is downgraded to `Inference`, and the report says the search could not be run | A core conclusion still depends on an external baseline → mark it `Low`, and name the exact questions and source types a later search would need |
-| The evidence needed to answer only exists behind a state-changing action (must run, restart, reconfigure, or write to observe) | State the read-only boundary, answer from existing evidence, and name the single action that would supply the missing evidence | Existing evidence supports no conclusion at all → report the question as a decision-critical `Unknown`; still deliver the report, but give no directional conclusion |
-| Two retained sources contradict each other and neither recency nor authority settles it | Keep both in the evidence ledger with their provenance and dates, and lower the affected finding's confidence by one level | The contradiction lands on a core conclusion → give the report a `Contradiction unresolved` entry and state no single conclusion |
-| A checklist item cannot be assessed — neither `supported` nor `unsupported`, because no evidence reaches it | Mark it `not assessed` and name the evidence that is missing | That item is decision-critical → the report's overall confidence cannot exceed `Medium`, and the `Conclusion` section names the item |
+| The evidence needed to answer only exists behind a state-changing action (must run, restart, reconfigure, or write to observe) | State the read-only boundary, answer from existing evidence, and name the single action that would supply the missing evidence | Existing evidence supports no conclusion at all → still deliver the report, but its `Conclusion` states that the question is unresolved and names the action that would settle it, rather than answering directionally |
+| Two retained sources contradict each other and neither recency nor authority settles it | Keep both in the evidence ledger with their provenance and dates, and lower the affected finding's confidence by one level | The contradiction lands on a core conclusion → the `Conclusion` states both readings, says the contradiction is unresolved, and names what would settle it |
+| A checklist item cannot be assessed — neither `supported` nor `unsupported`, because no evidence reaches it | Mark it `not assessed` and name the evidence that is missing | That item is decision-critical → every finding that depends on it is capped at `Medium` confidence, and the `Conclusion` names the item and the missing evidence |
 | A second opinion is unavailable and the only source is the user's own claim or a secondary summary | Label it `Assumption` or `Unknown`; never promote it to `Fact` | That claim is load-bearing for the conclusion → say so explicitly and state the cheapest independent check |
 
 ## 与 real-solution-plan 的协作
