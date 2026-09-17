@@ -82,3 +82,16 @@ Choose the first available verification that directly covers the changed path:
 5. Minimal ad hoc invocation when the project has no ready test.
 
 Do not claim full validation from a weak smoke test. Say exactly what was and was not covered.
+
+## When The Scoped Workflow Breaks
+
+The workflow assumes the change stays small, reversible, and verifiable. When it turns out otherwise, handle it by this table — do not keep patching and hope.
+
+| Trigger | First-line fix | Fallback if that fails |
+|---|---|---|
+| The named change point is one of several callers of the same broken logic | Fix it once at the shared function every caller routes through, and list the affected callers in the report | If the shared fix would change behavior for callers outside the stated scope, stop and state the blast radius before patching |
+| The investigation widens the change beyond the request — multi-file, architectural, or a public-interface change | Stop and report the real scope together with the evidence that widened it, then ask whether to proceed scoped or expand | If the user is unreachable and the work is reversible, do the narrowest slice that stands on its own and state explicitly what was left out |
+| Local style is inconsistent, or the file has no settled convention | Match the dominant pattern within the same file, then the nearest sibling file | If it is still ambiguous, match the surrounding block and say which convention was chosen |
+| The edit turns out to be irreversible — schema migration, file deletion, public-interface or published-data change | Stop before writing. Name what cannot be undone, what the rollback would cost, and get confirmation | If it was already applied, say so immediately with the exact reversal steps. Never attempt a second silent edit to cover it |
+| Unrelated user changes already sit in the worktree on the files being patched | Read the current content first and patch around them; never revert or reformat them | If the user's edits conflict with the required change, stop and show the conflict rather than picking a side |
+| "Done" cannot be checked from anything available | Propose one concrete check and agree on what counts as done before patching | If no check is possible at all, say the change is unverifiable and state what a reviewer should inspect by hand |
