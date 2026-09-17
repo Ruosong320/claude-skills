@@ -1,13 +1,13 @@
 ---
 name: initer
-description: Clarify requirements before starting from-zero project builds or new feature work. Use when Codex is asked to create a complete new project, scaffold an app, design a system, add a new feature, introduce a new workflow, or make any change whose product, technical, UX, data, integration, security, deployment, or acceptance boundaries are unclear; generate a checklist from the user request, identify unclear boundaries, ask targeted multi-round questions, and begin implementation only after the checklist is sufficiently resolved.
+description: Clarify requirements before starting from-zero project builds or new feature work. Use when asked to create a complete new project, scaffold an app, design a system, add a new feature, introduce a new workflow, or make any change whose product, technical, UX, data, integration, security, deployment, or acceptance boundaries are unclear; generate a checklist from the user request, identify unclear boundaries, ask targeted multi-round questions, and begin implementation only after the checklist is sufficiently resolved.
 ---
 
 ## 一切提问优先使用弹窗工具让我点击选择，实在没办法弹窗再要求描述。
 
 # Initer
 
-Initer is a pre-implementation clarification gate. It prevents Codex from starting substantial project or feature work while the requirements, boundaries, constraints, or acceptance criteria are still ambiguous.
+Initer is a pre-implementation clarification gate. It prevents the agent from starting substantial project or feature work while the requirements, boundaries, constraints, or acceptance criteria are still ambiguous.
 
 ## Core Rule
 

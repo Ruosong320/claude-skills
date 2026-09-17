@@ -1,6 +1,6 @@
 ---
 name: abstract-first-coder
-description: "Write Python code in the abstraction-first style used by knowledge_graph_xm: define domain data models, abstract interfaces, strategy classes, default implementations, pipeline orchestration, dependency injection, async contracts, and verification hooks before adding concrete behavior. Use when Codex creates or modifies project code that should be extensible, replaceable, and readable by future agents."
+description: "Write Python code in the abstraction-first style used by knowledge_graph_xm: define domain data models, abstract interfaces, strategy classes, default implementations, pipeline orchestration, dependency injection, async contracts, and verification hooks before adding concrete behavior. Use when creating or modifying project code that should be extensible, replaceable, and readable by future agents."
 ---
 
 # Abstract First Coder
@@ -261,6 +261,18 @@ Before finishing a code change, verify:
 - Inputs are validated before processing.
 - Outputs are saved or returned in a traceable shape.
 - A focused test, script, or single-point check exists for the new capability.
+
+## Execution Failures And Recovery
+
+This skill itself goes wrong in predictable ways. Handle by table, never continue silently.
+
+| Trigger | First-line fix | Fallback if that fails |
+|---|---|---|
+| Abstraction level turns out too high (interface/strategy has one implementation and no second case) | Drop one rung on the ladder; collapse the interface back to a function | Collapse to the plainest shape (plain function + passive `dataclass`) and record the downgrade and its reason in the delivery note |
+| Contract does not hold once you write the implementation (interface forces callers to pass irrelevant arguments) | Return to the Design Pass and redefine the contract without changing caller semantics | If redefining would disturb existing strategies, add a new strategy and keep the old one; never replace in place |
+| Repo has a stronger local convention that conflicts with this layering | Follow the repo convention; treat this layering as reference only | If the conflict cannot be reconciled, report the conflict explicitly for the user to decide; do not choose on their behalf |
+| A capability that must be injected is unavailable at the call site | Build the default implementation centrally in the run context / prepare stage | If it cannot be built, raise explicitly naming the missing capability; do not fall back to a hard-coded internal instance |
+| You and the user disagree on task scale | State the rung you chose and why, with the cost of the adjacent rung | If the user insists, follow their choice and mark in the delivery note that the level was user-specified |
 
 ## What To Avoid
 
