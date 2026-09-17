@@ -127,7 +127,7 @@ Use the first matching state. Never present a non-`PASS` result as complete.
 
 ## Do Not
 
-- Do not act first and reconcile the checkpoint afterwards — a check run after the action it guards is not a check. The checkpoint fires before the first state-changing action and again whenever the working unit grows.
+- Do not act first and reconcile the checkpoint afterwards — a check run after the action it guards is not a check.
 - Do not act at any level while that level's required safeguard is unavailable.
 - Do not present a non-`PASS` result as complete, and do not substitute a weaker check for an unavailable real one without saying so and stating the evidence gap.
 - Do not shrink the acceptance scope to fit the budget you chose.
