@@ -32,57 +32,6 @@ If a requested diagnostic is destructive or state-changing, explain the limitati
 
 Scale effort to the consequence of a wrong conclusion, the complexity of the subject, and the uncertainty of the evidence. Apply deeper source triangulation, alternative-hypothesis testing, sensitivity analysis, and independent checks to high-impact or hard-to-reverse decisions. Keep low-risk analysis concise.
 
-### 强化要求（Quality Enhancement）
-
-在输出分析前必须满足：
-
-1. **全面性自检**
-   - 自问：我是否分析了所有应该说的内容？
-   - 自问：是否遗漏了关键的上下游环节、边界情况、失败模式？
-   - 自问：报告中的每个章节是否都充实且有价值？
-   - 如果发现遗漏，必须补充后再输出
-
-2. **证据强制要求**
-   - 禁止行为：
-     - "我觉得可能是..."（臆测）
-     - "通常情况下应该..."（独立视角，未结合实际）
-     - "这个问题可能与 X 有关，但我没有证据"（不自信的猜测）
-   - 强制行为：
-     - 无法从现有代码、日志、文档得出准确结论时，**必须网络检索真实方法论和工程案例**
-     - 至少参考 2-3 个不同来源（官方文档、GitHub 真实项目、Stack Overflow、技术博客）
-     - 结合检索结果和项目实际情况给出分析
-     - 明确标注依据来源
-
-3. **网络检索触发条件**
-   - 遇到以下情况，必须先检索再分析：
-     - 不熟悉的技术栈、库、框架
-     - 性能瓶颈、最佳实践类问题
-     - 需要对比多种技术方案
-     - 需要了解某个模式的业界实现方式
-     - 错误信息不明确，需要查阅社区解决方案
-   - 检索策略：
-     - 使用 WebFetch 或 web_search 工具
-     - 优先查阅官方文档和 GitHub 高 star 项目
-     - 交叉验证多个来源的说法
-     - 记录检索来源 URL 或总结到分析报告中
-
-4. **自信度强制标定**
-   - 每个关键结论必须标注置信度（High/Medium/Low）
-   - Low 置信度的结论必须：
-     - 说明为何置信度低
-     - 列出需要补充的证据
-     - 给出提高置信度的方法
-   - 如果核心结论置信度为 Low 且可以通过检索提升，**必须先检索再输出**
-
-Use the RIGOUR quality gate:
-
-- `Repeatable`: another agent can follow the cited evidence and reasoning.
-- `Independent`: stakeholder claims and the first plausible explanation receive challenge.
-- `Grounded`: the model matches observed context and real downstream use.
-- `Objective`: conclusions follow evidence rather than the desired answer.
-- `Uncertainty-managed`: assumptions, ranges, gaps, and confidence are explicit.
-- `Robust`: reasonable alternative interpretations do not overturn the conclusion unnoticed.
-
 ## Core Workflow
 
 ### 1. Frame the Decision
@@ -139,26 +88,17 @@ Label statements consistently:
 - `Unknown`: material information not established.
 - `Web-sourced`: from network search, cite URL or source description.
 
-**强化：网络检索集成**
+Prefer primary sources and runtime evidence over summaries or comments. Triangulate material conclusions when independent evidence is available. Search external sources with `WebFetch` or web search — before answering, not after — when project-internal evidence is insufficient, when the stack or the error is unfamiliar, when comparing approaches, or when a performance, security, or best-practice claim needs an industry baseline. Use at least two or three independent sources (official docs, high-star real projects, community reports) and record each one in this format:
 
-当遇到以下情况，在构建证据账本时必须补充网络检索证据：
-
-- 项目代码/文档中信息不足以得出可靠结论
-- 需要了解某技术的标准用法、最佳实践
-- 需要对比业界不同实现方式
-- 错误信息需要查阅社区解决方案
-- 性能/安全性等需要参考行业标准
-
-检索证据记录格式：
 ```markdown
 - 来源：[官方文档/GitHub 项目/Stack Overflow/技术博客]
-- URL：[如果可引用]
+- URL：
 - 内容摘要：[关键信息]
 - 相关性：支持/削弱/补充 [具体假设]
 - 可信度：[高/中/低]，依据：[star 数/官方性/时效性]
 ```
 
-Prefer primary sources and runtime evidence over summaries or comments. Triangulate material conclusions when independent evidence is available. **When project-internal evidence is insufficient, triangulate with web-searched real-world implementations and methodologies.** Preserve contradictory evidence rather than averaging it away.
+If a core conclusion has no supporting evidence, search and supplement before answering. Preserve contradictory evidence rather than averaging it away.
 
 Assess evidence along independent dimensions rather than a vague quality score: authority, proximity to the observation, independence from other sources, relevance to this claim and time horizon, recency, completeness of excluded cases, and reproducibility of the path from source to conclusion. Do not let authority substitute for direct runtime evidence about current behavior, and do not call two sources independent when one copied the other.
 
@@ -225,7 +165,7 @@ Assign confidence per major finding rather than one blanket score:
 - `Medium`: evidence supports the finding but depends on limited sources, bounded inference, or a non-critical unknown.
 - `Low`: evidence is sparse, indirect, conflicting, or sensitive to an unresolved assumption.
 
-Do not use precise probabilities without a defensible calibration basis. State what new evidence would raise, lower, or reverse confidence.
+Do not use precise probabilities without a defensible calibration basis. State what new evidence would raise, lower, or reverse confidence. A `Low` finding must name why the confidence is low, what evidence is missing, and how to obtain it; if a core conclusion is `Low` and a search could raise it, search before answering rather than shipping the hedge. An unsupported statement is an `Unknown`, not a confidence level: do not hedge with "I think maybe", "usually it should", or "this may relate to X but I have no evidence" — either ground it, label it `Unknown`, or drop it.
 
 ## Report Structure
 
@@ -267,6 +207,8 @@ Omit `Alternative Explanations` only when the request is purely descriptive and 
 
 ## Common Failure Modes
 
+These are defects, not style preferences: a report that exhibits any of them is redone, not annotated.
+
 - `Checklist theater`: listing checks without resolving them. Require a status and evidence for each item.
 - `Single-point reading`: inferring the system from the named function or excerpt. Trace upstream and downstream.
 - `Premature closure`: accepting the first coherent explanation. Test alternatives and contradiction.
@@ -276,64 +218,28 @@ Omit `Alternative Explanations` only when the request is purely descriptive and 
 - `Framework stacking`: applying many named methods without increasing decision quality.
 - `Verification-only`: proving calculations or code paths are internally correct without checking fitness for the real question.
 - `Unbounded research`: collecting more sources after the conclusion is stable while decision-critical gaps remain unprioritized.
+- `Complexity avoidance`: simplifying or routing around a hard problem instead of investigating it.
+- `Theory-only reasoning`: concluding from general principles without checking the project's actual code, configuration, or data.
+- `Single-source reliance`: concluding from one file or one document without cross-verification.
+- `Un-actioned low confidence`: declaring low confidence without naming the evidence that would resolve it.
+- `Vague conclusion`: recommending a direction ("optimize performance") without naming the bottleneck, the mechanism, or the measurable target.
 
 ## Final Quality Check
 
-Before answering, confirm:
+Before answering, run this gate — the RIGOUR check: `Repeatable`, `Independent`, `Grounded`, `Objective`, `Uncertainty-managed`, `Robust`.
 
-- no persistent state changed;
-- every material finding traces to evidence;
-- facts, inferences, assumptions, and unknowns remain distinct;
-- contradictory evidence and viable alternatives are visible;
-- verification and validation both passed or their failures are stated;
-- confidence matches evidence quality and decision sensitivity;
+- **Repeatable** — no persistent state changed, and every material finding traces to evidence another agent could follow;
+- **Independent** — stakeholder claims and the first plausible explanation were both challenged;
+- **Grounded** — the model matches observed context and real downstream use; verification and validation both passed or their failures are stated;
+- **Objective** — the conclusion follows the evidence rather than the hoped-for answer;
+- **Uncertainty-managed** — facts, inferences, assumptions, and unknowns remain distinct, and confidence matches evidence quality and decision sensitivity;
+- **Robust** — contradictory evidence and viable alternatives are visible; a reasonable alternative interpretation does not overturn the conclusion unnoticed;
+- the data flow (input → processing → output), the boundary and failure cases, upstream dependencies and downstream effects, and any relevant performance, security, or concurrency aspect were each examined;
+- every report section carries substance rather than an empty "to be confirmed";
+- nothing the user asked about, explicitly or implicitly, was left unexamined;
 - the answer is proportional and directly answers the requested question.
 
-### 强化质量关卡（Enhanced Quality Gate）
-
-在输出前必须通过以下检查：
-
-#### 1. 全面性检查 ✓
-
-自检问题清单：
-- [ ] 是否分析了完整的数据流（输入 → 处理 → 输出）？
-- [ ] 是否覆盖了主要的边界情况和失败模式？
-- [ ] 是否检查了上游依赖和下游影响？
-- [ ] 是否考虑了性能、安全、并发等非功能性方面（如相关）？
-- [ ] 报告的每个章节是否都有实质内容（非空泛的"待确认"）？
-- [ ] 是否遗漏了用户明确或隐含关心的方面？
-
-**如果任一项为 No，必须补充分析后再输出。**
-
-#### 2. 证据充分性检查 ✓
-
-自检问题清单：
-- [ ] 每个关键结论是否都有具体证据支撑？
-- [ ] 是否存在"我觉得"、"可能"、"应该"等不确定表述？
-- [ ] 不确定的结论是否已标注置信度并说明原因？
-- [ ] 对于项目内证据不足的部分，是否进行了网络检索？
-- [ ] 网络检索是否参考了多个来源（至少 2-3 个）？
-- [ ] 检索来源是否可信（官方文档、高质量项目、近期内容）？
-
-**如果存在无证据的核心结论，必须检索补充后再输出。**
-
-#### 3. 禁止行为检查 ✗
-
-以下行为不被接受，发现后必须重做分析：
-- ✗ 臆测式分析：没有证据支撑的推测
-- ✗ 偷懒式分析：遇到复杂问题绕过或简化，未深入调查
-- ✗ 独立视角分析：只基于理论知识，未结合项目实际代码/配置/数据
-- ✗ 单源依赖：只看一处代码/一篇文档就得出结论，未交叉验证
-- ✗ 空泛结论：如"建议优化性能"而不说具体瓶颈在哪、如何优化
-- ✗ 不自信分析：结论充满不确定性，但未采取行动（检索、实验）提升确定性
-
-#### 4. 输出前自问
-
-- 如果我是用户，看到这份分析会觉得有价值吗？
-- 如果基于这份分析做决策，会有足够信心吗？
-- 如果分析错误，是因为信息真的不可得，还是我可以做得更好？
-
-**只有三个问题都是肯定答案，才能输出。**
+If any item above fails, fix it and re-analyze before answering — do not emit the report with an unresolved item.
 
 ## 与 real-solution-plan 的协作
 
