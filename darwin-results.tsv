@@ -5,3 +5,4 @@ timestamp	commit	skill	old_score	new_score	status	dimension	note	eval_mode
 2026-09-17T10:50	4397752	abstract-first-coder	(P0 runtime drift 已修)	-red-	keep	P0	description 含 Codex 限定，其他 runtime 会拒装；红灯扫描复验清零	grep
 2026-09-17T10:52	99cb21b	abstract-first-coder	(绝对分仅triage)	3-0 better	keep	dim3	执行失败三段式表；3 judge 全 clear	paired
 2026-09-17T11:05	074841e	initer	(绝对分仅triage)	3-0 better	keep	dim3	澄清循环停滞处理表；3 judge 全 clear	paired
+2026-09-17T10:20	8e2c496	xm-chat	1624->1014 desc	3-0 better	keep	dim1	description 超 1024 且裸标量含 ": " 致 YAML 解析失败(第3行col910)；压缩至 1014，触发词0丢失；3 judge 全 clear	paired
