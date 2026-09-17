@@ -5,7 +5,7 @@ description: "Write Python code in the abstraction-first style used by knowledge
 
 # Abstract First Coder
 
-This skill guides agents to write code in the style observed in `/Users/ruosongchen/PyCharmMiscProject/knowledge_graph_xm`: everything starts from a stable abstraction, then concrete implementations are plugged into a pipeline.
+This skill guides agents to write code in the style observed in `/Users/ruosongchen/PyCharmMiscProject/knowledge_graph_xm`: everything starts from a stable abstraction, then concrete implementations are plugged into a pipeline. If that path is unreachable, or the repo you are in shows a different style, take the row beginning *The reference project named in this skill's opening paragraph is unavailable* in `Execution Failures And Recovery` before following the style above.
 
 ## Core Principle
 
@@ -37,7 +37,7 @@ Guardrails so the abstraction-first habit does not become ceremony:
 - Prefer the smallest shape that still makes the abstraction boundary obvious; expand it the moment a real second case arrives, not before.
 - Self-check: would a senior engineer call this structure premature for the task as scoped? If yes, drop a level on the ladder.
 
-When in doubt for substantial, long-lived, or pipeline code, lean toward the abstraction. For scripts, glue, single-use transforms, and small features, lean toward the plain function. State which rung you chose and why before implementing. If the rung turns out too high once built, or the user disagrees with it, take the matching row of `Execution Failures And Recovery`.
+When in doubt for substantial, long-lived, or pipeline code, lean toward the abstraction. For scripts, glue, single-use transforms, and small features, lean toward the plain function. State which rung you chose and why before implementing. If the rung turns out too high once built, take the row beginning *Abstraction level turns out too high* in `Execution Failures And Recovery`; if the user disagrees with it, take the row beginning *You and the user disagree on task scale*.
 
 ## Architecture Pattern
 

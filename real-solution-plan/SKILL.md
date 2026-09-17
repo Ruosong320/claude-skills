@@ -301,7 +301,7 @@ class DataProcessor:
 
 ## 与其他 Skill 的协作
 
-- **前置：initer** - 需求本身不清楚或用户给不出验收标准时，先回到 initer 厘清需求边界
+- **前置：initer** - 命中兜底表首行 *需求本身不清楚，或用户给不出验收标准* 时按那一行处理，本 skill 不自行降级
 - **前置：analyze-only** - 没有先验分析结论且方案要定选型或架构时，先调用 analyze-only 产出分析结论，再基于结论产出方案
 - **后续：ship-it-for-real** - 方案产出并用户确认后，调用 ship-it-for-real 执行实现与验证
 - **记录：recoder** - 重要方案和实现路径记录到 recoder 供后续复用

@@ -55,3 +55,10 @@ timestamp	commit	skill	old_score	new_score	status	dimension	note	eval_mode
 2026-09-17T11:36	0dd2ffd	real-solution-plan	302->304行	2-1 better	keep	dim3/dim7	j2 判改前：位置兜底在原行序下会选错行、第302行触发条件是弱化副本；j1/j3 判改后：闸门自相矛盾与缺优先级条款已修。三位一致要求恢复第6行兜底的 🛑	paired
 2026-09-17T11:36	3d4f8f4	analyze-only	250->266行	3-0 better	keep	dim3/dim4	ao1 首轮，3×clear：A 是纯正向流程，检索不可用/证据需写操作/来源矛盾/无从评估四路全无出路	paired
 2026-09-17T11:36	68cc308	initer	207->214行	3-0 better	keep	dim3/dim4	init1 首轮，3×clear：兜底表存在但工作流无一句指向它（unrouted table），最低就绪标准只有措辞无标记	paired
+2026-09-17T11:37	7fecae0	real-solution-plan	304->304行	3-0 better	keep	dim3/dim4	rsp3：恢复第6行兜底的 🛑、把「需求本身不清楚」提到表首（位置兜底原先会选错行）、对齐第302行触发条件。三位一致	paired
+2026-09-17T11:37	3d4f8f4	analyze-only	266->266行	3-0 better	keep	dim3/dim5	ao2：行指针改逐字行首、补第5行路由、引导句补全、置信度封顶改逐条、矛盾/未决落进 Conclusion	paired
+2026-09-17T11:37	68cc308	initer	214->214行	3-0 better	keep	dim3/dim7	init2：具名行指针取代表查找、补多行命中兜底、STOP 写明优先于跳过行的 start 步骤	paired
+2026-09-17T00:00	52c7ea9	initer	214->214行	3-0 better	keep	dim3/dim4	Unclear/Blocked 判定轴 + STOP 覆盖三条规则全被 3 judge 独立确认	paired
+2026-09-17T00:00	52c7ea9	analyze-only	266->266行	3-0 better	keep	dim3/dim7	五行前置条件一一对上五行表；lead-in 不再与 line73 指针冲突	paired
+2026-09-17T00:00	52c7ea9	real-solution-plan	304->307行	3-0 better	keep	dim7/dim3	§12 输出补齐 8 项自检槽位；precedence 纳入第2步优先级顺序	paired
+2026-09-17T00:00	230eff6	abstract-first-coder	318->319行	3-0 better	keep	dim3/dim4	4 处行指针 + 2 个显性标记；5 行表从全部不可达变 4 行可达	paired
