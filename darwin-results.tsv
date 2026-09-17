@@ -12,3 +12,6 @@ timestamp	commit	skill	old_score	new_score	status	dimension	note	eval_mode
 2026-09-17T10:33	d1330cb	analyze-only	-	dim8 baseline	baseline	dim8	P1 3-0 with胜(clear×3)/P2 3-0 with胜(slight×3)；N=1每臂无法分离 skill 效应与 run 方差；沙盒隔离破(with臂读≥6个沙盒外文件, server.py/selfcheck_mcp.py/selfcheck.py/3×_ui.py)是P1区分度主因；只读边界守住(git status 除__pycache__外干净)；with输出为baseline的2.1×/2.4×且两位judge点名Report Structure进场段是脚手架；P1判者读真仓库复核~10处file:line(偏向可核查断言多的一份)	full_test
 2026-09-17T10:33	245b67d	analyze-only	344->235行	3-0 worse	revert	dim7	三位judge独立收敛同一损失清单：全面性/证据充分性的强制分支、Low置信度先检索、WebFetch/web_search工具名、偷懒式分析 均真丢；judge口径矛盾(输出前自问同时被判FILLER与被判损失)=我引入的单向priming痕迹；改后架构更干净被三位共同承认	paired
 2026-09-17T10:35	a17c509	analyze-only	344->250行	3-0 better	keep	dim7	judge独立收敛：改后把重复清单折进其执行处(检索→§4/§8、RIGOUR→闸门)，省下的篇幅用于净增约束(命中即重做/5条命名反模式/Unknown处置规则)；DROPPED仅剩Output前自问三问(三位均判不可证伪的FILLER)；网络检索要求 7次->2-4次	paired
+2026-09-17T10:35	afb268c	analyze-only	(P0 runtime)	-red-	keep	P0	WebFetch 硬编码（本轮我自己写入的）-> 改为「所在环境的检索/抓取能力」；两条 regex 复验清零	grep
+2026-09-17T10:35	afb268c	process-thinker	(P0 runtime)	-red-	keep	P0	「每节点至少1次WebSearch」是强制项且配了禁止无检索的硬约束，其他 runtime 无法满足 -> 改为联网检索；复验清零	grep
+2026-09-17T10:35	afb268c	mission-spliter	(P0 runtime)	-red-	keep	P0	Task tool 硬编码 -> environment task tracker；复验清零	grep
