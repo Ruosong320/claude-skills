@@ -37,11 +37,11 @@ Guardrails so the abstraction-first habit does not become ceremony:
 - Prefer the smallest shape that still makes the abstraction boundary obvious; expand it the moment a real second case arrives, not before.
 - Self-check: would a senior engineer call this structure premature for the task as scoped? If yes, drop a level on the ladder.
 
-When in doubt for substantial, long-lived, or pipeline code, lean toward the abstraction. For scripts, glue, single-use transforms, and small features, lean toward the plain function. State which rung you chose and why before implementing.
+When in doubt for substantial, long-lived, or pipeline code, lean toward the abstraction. For scripts, glue, single-use transforms, and small features, lean toward the plain function. State which rung you chose and why before implementing. If the rung turns out too high once built, or the user disagrees with it, take the matching row of `Execution Failures And Recovery`.
 
 ## Architecture Pattern
 
-Use this layering unless the repo already has a stronger local convention.
+Use this layering unless the repo already has a stronger local convention. When the repo's convention conflicts with it, take the row beginning *Repo has a stronger local convention* in `Execution Failures And Recovery` rather than choosing on the user's behalf.
 
 ```text
 *_definitions/         domain data structures and abstract processors
@@ -77,7 +77,7 @@ Before implementing a new feature, write or mentally settle these answers:
 - What errors should be raised vs tolerated?
 - What focused verification proves the capability works?
 
-If any answer is unclear, clarify before writing implementation.
+**🛑 STOP — do not write implementation code while any answer above is unsettled. A contract guessed now is redefined later at the cost of every caller already written against it. Resolve it, or ask the user.**
 
 ## Data First
 
@@ -143,7 +143,7 @@ chunker = ChunkTextByRecursive(...)
 chunked_result = await chunker.chunk(documents)
 ```
 
-Creating defaults in `prepare_run_context` is acceptable because it centralizes runtime choices.
+Creating defaults in `prepare_run_context` is acceptable because it centralizes runtime choices. If a capability that must be injected has no implementation available at the call site, take the row beginning *A capability that must be injected is unavailable* in `Execution Failures And Recovery`; never reach for a hard-coded internal instance.
 
 ## Pipeline Style
 
@@ -193,7 +193,7 @@ class PileByDefault(Pile):
         ...
 ```
 
-This lets the pipeline choose strategies without changing downstream contracts.
+This lets the pipeline choose strategies without changing downstream contracts. If the contract turns out to force callers to pass irrelevant arguments, take the row beginning *Contract does not hold once you write the implementation* in `Execution Failures And Recovery`.
 
 ## Defaults And Fallbacks
 
@@ -249,7 +249,7 @@ Generated files should live under a run-specific temp/output path instead of pol
 
 ## Implementation Checklist
 
-Before finishing a code change, verify:
+**🔴 CHECKPOINT — run this list against the code that actually exists, not against the plan. A structure that satisfies the list only in intent does not satisfy it.**
 
 - A domain data model exists for new structured data.
 - A replaceable capability has an abstract interface.
@@ -272,6 +272,7 @@ This skill itself goes wrong in predictable ways. Handle by table, never continu
 | Contract does not hold once you write the implementation (interface forces callers to pass irrelevant arguments) | Return to the Design Pass and redefine the contract without changing caller semantics | If redefining would disturb existing strategies, add a new strategy and keep the old one; never replace in place |
 | Repo has a stronger local convention that conflicts with this layering | Follow the repo convention; treat this layering as reference only | If the conflict cannot be reconciled, report the conflict explicitly for the user to decide; do not choose on their behalf |
 | A capability that must be injected is unavailable at the call site | Build the default implementation centrally in the run context / prepare stage | If it cannot be built, raise explicitly naming the missing capability; do not fall back to a hard-coded internal instance |
+| The reference project named in this skill's opening paragraph is unavailable, or the repo you are in shows a different style | Work from the naming patterns and examples inside this skill; do not claim to be following the reference project's style | If the repo documents conventions of its own, those win outright — say which part of the reference could not be checked |
 | You and the user disagree on task scale | State the rung you chose and why, with the cost of the adjacent rung | If the user insists, follow their choice and mark in the delivery note that the level was user-specified |
 
 ## What To Avoid
